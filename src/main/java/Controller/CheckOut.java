@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet("/checkOut")
 public class CheckOut extends HttpServlet {
@@ -23,7 +25,21 @@ public class CheckOut extends HttpServlet {
             return;
         }
         try{
+            String[] selectCartIDs = request.getParameterValues("cardIDs");
+            if(selectCartIDs == null || selectCartIDs.length == 0){
+                session.setAttribute("error", "Please select at least one item to checkout.");
+                response.sendRedirect("cart");
+                return;
+            }
 
+            List<Integer> idList = new ArrayList<>();
+            for(String idStr: selectCartIDs){
+                idList.add(Integer.parseInt(idStr));
+            }
+
+            String result = checkOutServices.CheckOut(idList);
+            session.setAttribute("successMessage", "Checkout Successful!");
+            //Navigation to payment success
         }
         catch (Exception ex){
 

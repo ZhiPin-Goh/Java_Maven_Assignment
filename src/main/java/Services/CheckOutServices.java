@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 public class CheckOutServices {
     private static final String BASE_URL = "http://localhost:5018/api/ManageCheckOut/";
@@ -43,7 +44,7 @@ public class CheckOutServices {
             throw new Exception(responseMsg); // 失败，抛出异常
         }
     }
-    public String CheckOut(int id) throws Exception{
+    public String CheckOut(List<Integer> cartIDs) throws Exception{
         if (!SessionManager.isLoggedIn()){
             throw new Exception("Please login first!");
         }
@@ -55,7 +56,9 @@ public class CheckOutServices {
 
         JSONObject obj = new JSONObject();
         JSONArray idArray = new JSONArray();
-        idArray.put(id);
+        for(int id: cartIDs){
+            idArray.put(id);
+        }
         obj.put("cartID", idArray);
 
         OutputStream outputStream = connection.getOutputStream();
