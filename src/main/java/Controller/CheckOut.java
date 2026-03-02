@@ -26,6 +26,7 @@ public class CheckOut extends HttpServlet {
 
         }
         catch (Exception ex){
+
             request.setAttribute("error", ex.getMessage());
             request.getRequestDispatcher("cart.jsp").forward(request,response);
         }
