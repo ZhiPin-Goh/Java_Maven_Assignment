@@ -2,6 +2,8 @@ package Services;
 
 import Models.SessionManager;
 import Models.User;
+import ModelsDTO.ChangePasswordDTO;
+import ModelsDTO.EditUserDTO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -162,7 +164,24 @@ public class UserServices {
         return getResponseFromConnection(connection);
     }
 
+    public String EditUser(EditUserDTO user) throws Exception {
+        URL url = new URL(BASE_URL + "UpdateUser");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
+        JSONObject obj = new JSONObject();
+        obj.put("id", user.getUserID());
+        obj.put("userName", user.getUserName());
+        obj.put("email", user.getEmail());
+        obj.put("phoneNumber", user.getPhoneNumber());
 
+        OutputStream outputStream = connection.getOutputStream();
+        outputStream.write(obj.toString().getBytes("UTF-8"));
+        outputStream.close();
+
+        return getResponseFromConnection(connection);
+    }
 
     public int LoginUser(String email, String password) throws Exception {
         URL url = new URL(BASE_URL + "LoginUser");
@@ -210,7 +229,7 @@ public class UserServices {
         return getResponseFromConnection(connection);
     }
 
-    public String ChangePassword(String currentPassword, String NewPassword) throws Exception{
+    public String ChangePassword(ChangePasswordDTO password) throws Exception{
         if(!SessionManager.isLoggedIn()){
             throw new Exception("Please login first!");
         }
@@ -221,9 +240,9 @@ public class UserServices {
         connection.setDoOutput(true);
 
         JSONObject obj = new JSONObject();
-        obj.put("ID", SessionManager.getUserId());
-        obj.put("CurrentPassword", currentPassword);
-        obj.put("NewPassword", NewPassword);
+        obj.put("ID", password.getUserID());
+        obj.put("CurrentPassword", password.getCurrentPassword());
+        obj.put("NewPassword", password.getNewPassword());
 
         OutputStream outputStream = connection.getOutputStream();
         outputStream.write(obj.toString().getBytes("UTF-8"));
