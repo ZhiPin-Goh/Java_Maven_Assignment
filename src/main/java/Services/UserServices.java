@@ -1,6 +1,5 @@
 package Services;
 
-import Models.SessionManager;
 import Models.User;
 import ModelsDTO.ChangePasswordDTO;
 import ModelsDTO.EditUserDTO;
@@ -83,34 +82,7 @@ public class UserServices {
         }
         return list;
     }
-    public User GetUserByID() throws  Exception{
-        URL url = new URL(BASE_URL + "GetUserByID/" + SessionManager.getUserId());
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-        connection.connect();
 
-        int responseCode = connection.getResponseCode();
-        if (responseCode !=200){
-            throw new Exception("Server Error: "+ responseCode);
-        }
-
-        InputStream inputStream = connection.getInputStream();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        StringBuilder result = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            result.append(line);
-        }
-        JSONObject obj = new JSONObject(result.toString());
-        int userID = obj.getInt("id");
-        String name = obj.getString("userName");
-        String email = obj.getString("email");
-        String phoneNumber = obj.optString("phoneNumber", "N/A");
-        String password = obj.optString("password", "N/A");
-        String userCode = obj.getString("userCode");
-        boolean status = obj.getBoolean("status");
-        return new User(userID,  name, email, phoneNumber, password, 12, status, userCode);
-    }
     public User SearchUserByID(int id) throws  Exception{
         URL url = new URL(BASE_URL + "GetUserByID/" + id);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -230,9 +202,6 @@ public class UserServices {
     }
 
     public String ChangePassword(ChangePasswordDTO password) throws Exception{
-        if(!SessionManager.isLoggedIn()){
-            throw new Exception("Please login first!");
-        }
         URL url = new URL(BASE_URL + "ChangePassword");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestProperty("Content-Type", "application/json");
@@ -249,8 +218,5 @@ public class UserServices {
         outputStream.close();
 
         return getResponseFromConnection(connection);
-    }
-    public void Logout(){
-        SessionManager.clearSession();
     }
 }

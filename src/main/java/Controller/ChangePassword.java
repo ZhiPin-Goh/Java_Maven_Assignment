@@ -30,7 +30,7 @@ public class ChangePassword extends HttpServlet {
             String currentPassword = request.getParameter("currentpassword");
             String newPassword = request.getParameter("newpassword");
             String confirmPassword = request.getParameter("confirmPassword");
-            if (!newPassword.matches(currentPassword)){
+            if (!newPassword.matches(Password_Pattern)){
                 session.setAttribute("errorMessage", "Password must be at least 8 characters long and include uppercase, lowercase, digit, and special character.");
                 response.sendRedirect(targetPage);
                 return;

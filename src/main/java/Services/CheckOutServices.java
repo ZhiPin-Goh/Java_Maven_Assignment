@@ -1,6 +1,5 @@
 package Services;
 
-import Models.SessionManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -45,9 +44,6 @@ public class CheckOutServices {
         }
     }
     public String CheckOut(List<Integer> cartIDs) throws Exception{
-        if (!SessionManager.isLoggedIn()){
-            throw new Exception("Please login first!");
-        }
         URL url = new URL(BASE_URL + "CheckOut");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestProperty("Content-Type", "application/json");

@@ -1,7 +1,6 @@
 package Services;
 
 import Models.Cart;
-import Models.SessionManager;
 import ModelsDTO.CartDTO;
 import ModelsDTO.CartQuantityDTO;
 import ModelsDTO.GetCartDTO;
@@ -86,40 +85,6 @@ public class CartServices {
         return getResponseFromConnection(connection);
     }
 
-//    public List<Cart> GetUserCartList() throws Exception{
-//        URL url = new URL(BASE_URL + "GetCartList/" + SessionManager.getUserId());
-//        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//        connection.setRequestMethod("GET");
-//        connection.connect();
-//
-//        int responseCode = connection.getResponseCode();
-//        if (responseCode != 200){
-//            System.out.println("Error: Server returned status code " + responseCode);
-//            return new ArrayList<>();
-//        }
-//        InputStream inputStream = connection.getInputStream();
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-//        StringBuilder result =new StringBuilder();
-//        String line;
-//        while ((line = reader.readLine()) != null) {
-//            result.append(line);
-//        }
-//        reader.close();
-//        JSONArray array =new JSONArray(result.toString());
-//        List<Cart> list = new ArrayList<>();
-//        for (int i = 0; i < array.length(); i++) {
-//            JSONObject obj = array.getJSONObject(i);
-//            int UserID = obj.getInt("UserID");
-//            int BeverageID = obj.getInt("BeverageID");
-//            int Quantity = obj.getInt("Quantity");
-//            int SugarLevelID = obj.getInt("SugarLevelID");
-//            int BeverageSizeID = obj.getInt("BeverageSizeID");
-//            int IceLevelID = obj.getInt("IceLevelID");
-//            int idCart = 0;
-//            list.add(new Cart(idCart, UserID,BeverageID, Quantity, SugarLevelID, BeverageSizeID, IceLevelID));
-//        }
-//        return list;
-//    }
     public GetCartDTO GetUserCartList(int Id) throws Exception{
         URL url = new URL(BASE_URL + "GetCartList/" + Id);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -191,13 +156,4 @@ public class CartServices {
         return getResponseFromConnection(connection);
     }
 
-    public String RemoveAllCart() throws Exception{
-        URL url = new URL(BASE_URL + "RemoveAllCart/" + SessionManager.getUserId());
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestMethod("POST");
-        connection.setDoOutput(true);
-
-        return getResponseFromConnection(connection);
-    }
 }

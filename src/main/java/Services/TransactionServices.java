@@ -1,6 +1,5 @@
 package Services;
 
-import Models.SessionManager;
 import ModelsDTO.TransactionDTO;
 import ModelsDTO.TransactionItemsDTO;
 import ModelsDTO.TransactionPreparingDTO;
@@ -49,12 +48,8 @@ public class TransactionServices {
             throw new Exception(responseMsg);
         }
     }
-    public List<TransactionDTO> GetTransactionHistory() throws Exception {
-        if (!SessionManager.isLoggedIn()) {
-            throw new Exception("Please login first!");
-        }
-
-        URL url = new URL(BASE_URL + "GettransactionHistory/" + SessionManager.getUserId());
+    public List<TransactionDTO> GetTransactionHistory(int id) throws Exception {
+        URL url = new URL(BASE_URL + "GettransactionHistory/" + id);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.connect();
@@ -104,7 +99,7 @@ public class TransactionServices {
         return transactionList;
     }
     public List<TransactionPreparingDTO> GetTransactionPreparing() throws Exception{
-        URL url = new URL(BASE_URL + "GetPreparingOrder/" + SessionManager.getUserId());
+        URL url = new URL(BASE_URL + "GetPreparingOrder/" + "");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.connect();
@@ -148,5 +143,48 @@ public class TransactionServices {
             ));
         }
         return preparingList;
+    }
+    public TransactionDTO GetOneTransactionDetails(String transactionNo) throws Exception {
+        URL url = new URL(BASE_URL + "GetOneTransactionDetails/" + transactionNo);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.connect();
+
+        int responseCode = connection.getResponseCode();
+        if (responseCode !=200){
+            throw new Exception("Server Error: "+ responseCode);
+        }
+
+        InputStream inputStream = connection.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        StringBuilder result = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            result.append(line);
+        }
+
+        JSONObject obj = new JSONObject(result.toString());
+        int userID = obj.getInt("userID");
+        String transNo = obj.getString("transactionNo");
+        BigDecimal totalAmount = BigDecimal.valueOf(obj.getDouble("totalAmount"));
+        String orderTime = obj.getString("orderTime");
+        String status = obj.getString("status");
+        String pickupCode = obj.optString("pickupCode", "N/A");
+
+        JSONArray itemsArray = obj.getJSONArray("items");
+        List<TransactionItemsDTO> itemList = new ArrayList<>();
+
+        for (int j =0; j< itemsArray.length(); j++){
+            JSONObject itemObj = itemsArray.getJSONObject(j);
+
+            itemList.add(new TransactionItemsDTO(
+                    itemObj.getString("beverageName"),
+                    itemObj.getString("imagePath"),
+                    itemObj.getString("description"),
+                    itemObj.getInt("quantity"),
+                    BigDecimal.valueOf(itemObj.getDouble("price"))
+            ));
+        }
+        return new TransactionDTO(userID, transNo, totalAmount, orderTime, status, pickupCode, itemList);
     }
 }
