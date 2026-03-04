@@ -1,6 +1,7 @@
 package Controller;
 
 import ModelsDTO.TransactionDTO;
+import ModelsDTO.TransactionPreparingDTO;
 import Services.TransactionServices;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -60,9 +61,15 @@ public class Order extends HttpServlet {
                 }
                 break;
             case "orderPreparing":
-//                try{
-//                   // List<TransactionDTO> preparing = transactionServices.GetTransactionPreparing(userId);
-//                }
+                try{
+                     List<TransactionPreparingDTO> preparing = transactionServices.GetTransactionPreparing(userId);
+                     request.setAttribute("preparing", preparing);
+                     request.getRequestDispatcher("index.jsp").forward(request, response);
+                }
+                catch (Exception ex){
+                    request.setAttribute("errorMessage", ex.getMessage());
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                }
                 break;
             default:
                 response.sendRedirect("index");

@@ -98,8 +98,8 @@ public class TransactionServices {
 
         return transactionList;
     }
-    public List<TransactionPreparingDTO> GetTransactionPreparing() throws Exception{
-        URL url = new URL(BASE_URL + "GetPreparingOrder/" + "");
+    public List<TransactionPreparingDTO> GetTransactionPreparing(int id) throws Exception{
+        URL url = new URL(BASE_URL + "GetPreparingOrder/" + id);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.connect();
