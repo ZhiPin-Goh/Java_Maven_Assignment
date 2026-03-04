@@ -34,7 +34,6 @@ public class BeverageDetails extends HttpServlet {
         } catch (NumberFormatException ex){
             response.sendRedirect("index.jsp");
         } catch (Exception ex){
-            ex.printStackTrace();
             request.setAttribute("error", ex.getMessage());
             request.getRequestDispatcher("index.jsp").forward(request,response);
         }

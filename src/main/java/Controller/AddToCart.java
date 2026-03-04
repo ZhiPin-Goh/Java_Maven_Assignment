@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/addtocart")
+@WebServlet("/addToCart")
 public class AddToCart extends HttpServlet {
     private CartServices cartServices = new CartServices();
 

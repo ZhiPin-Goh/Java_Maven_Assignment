@@ -28,8 +28,7 @@ public class ForgetPassword extends HttpServlet {
             String result = userServices.ForgetPassword(email);
             HttpSession session = request.getSession();
             session.setAttribute("resetEmail",email);
-
-            // navigation forget pw verifyOTP
+            response.sendRedirect("reset-password");
         }
         catch (Exception ex){
             request.setAttribute("errorMessage", ex.getMessage());

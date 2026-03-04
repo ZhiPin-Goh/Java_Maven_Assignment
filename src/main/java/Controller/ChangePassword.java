@@ -42,7 +42,7 @@ public class ChangePassword extends HttpServlet {
             }
             if (!newPassword.equals(confirmPassword)){
                 session.setAttribute("errorMessage", "New Password and Confirm password must be same");
-                response.sendRedirect(targetPage);
+                request.getRequestDispatcher("change-password.jsp").forward(request, response);
                 return;
             }
             ChangePasswordDTO password = new ChangePasswordDTO(userId, currentPassword, confirmPassword);
@@ -52,7 +52,7 @@ public class ChangePassword extends HttpServlet {
         }
         catch (Exception ex){
             session.setAttribute("errorMessage", "Failed to change password: " + ex.getMessage());
-            response.sendRedirect(targetPage);
+            request.getRequestDispatcher("change-password.jsp").forward(request, response);
         }
     }
 }

@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/orderList", "/orderDetails"})
+@WebServlet(urlPatterns = {"/orderList", "/orderDetails", "/orderPreparing"})
 public class Order extends HttpServlet {
     TransactionServices transactionServices = new TransactionServices();
 
@@ -36,7 +36,7 @@ public class Order extends HttpServlet {
                 }
                 catch (Exception ex){
                     request.setAttribute("errorMessage", ex.getMessage());
-                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                    request.getRequestDispatcher("profile.jsp").forward(request, response);
                 }
                 break;
             case "/orderDetails":
@@ -48,22 +48,24 @@ public class Order extends HttpServlet {
                         return;
                     }
 
-                    // 2. 呼叫 Service 拿详细资料
                     TransactionDTO orderDetails = transactionServices.GetOneTransactionDetails(transNo);
 
-                    // 3. 把详细资料塞进 request
                     request.setAttribute("orderDetails", orderDetails);
 
-                    // 4. Forward 给详情页显示 (假设你的详情页叫 order-details.jsp)
                     request.getRequestDispatcher("order-details.jsp").forward(request, response);
                 }
                 catch (Exception ex){
                     request.setAttribute("errorMessage","Failed to load details: " + ex.getMessage());
-                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                    request.getRequestDispatcher("profile.jsp").forward(request, response);
                 }
                 break;
+            case "orderPreparing":
+//                try{
+//                   // List<TransactionDTO> preparing = transactionServices.GetTransactionPreparing(userId);
+//                }
+                break;
             default:
-                response.sendRedirect("home");
+                response.sendRedirect("index");
         }
     }
 }

@@ -41,15 +41,10 @@ public class CartServices {
 
         String responseMsg = response.toString();
 
-        // 调试打印
-        //System.out.println("Status Code: " + responseCode);
-        //System.out.println("Server Message: " + responseMsg);
-
-        // 3. 决定结果
         if (responseCode >= 200 && responseCode < 300) {
             return responseMsg; // 成功，返回消息
         } else {
-            throw new Exception(responseMsg); // 失败，抛出异常
+            throw new Exception(responseMsg);
         }
     }
     public String CreateCart(Cart cart) throws Exception{

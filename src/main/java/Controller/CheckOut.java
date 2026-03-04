@@ -39,7 +39,7 @@ public class CheckOut extends HttpServlet {
 
             String result = checkOutServices.CheckOut(idList);
             session.setAttribute("successMessage", "Checkout Successful!");
-            //Navigation to payment success
+            response.sendRedirect("payment-success");
         }
         catch (Exception ex){
 

@@ -21,7 +21,7 @@ public class ResendOTP extends HttpServlet {
         HttpSession session = request.getSession();
         String email = (String) session.getAttribute("pendingVerificationEmail");
         if (email == null){
-            response.sendRedirect("signup.jsp");
+            response.sendRedirect("sign-up.jsp");
             return;
         }
         try{

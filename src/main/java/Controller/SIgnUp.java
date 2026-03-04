@@ -25,7 +25,7 @@ public class SIgnUp extends HttpServlet {
             String password = request.getParameter("password");
             if (!password.matches(Password_Pattern)){
                 request.setAttribute("errorMessage","Password must be at least 8 characters long and include uppercase, lowercase, digit, and special character.");
-                request.getRequestDispatcher("signup.jsp").forward(request, response);
+                request.getRequestDispatcher("sign-up.jsp").forward(request, response);
                 return;
             }
             CreateUserDTO user = new CreateUserDTO(username, email, phonenumber, password);
@@ -33,11 +33,11 @@ public class SIgnUp extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("pendingVerificationEmail", email);
             session.setAttribute("successMessage", "Sign up successful! Please check your email for the OTP code.");
-            //navigation VerifyOTP
+            response.sendRedirect("verify-otp");
         }
         catch (Exception ex){
             request.setAttribute("errorMessage", ex.getMessage());
-            request.getRequestDispatcher("signup.jsp").forward(request,response);
+            request.getRequestDispatcher("sign-up.jsp").forward(request,response);
         }
     }
 }

@@ -23,6 +23,8 @@ public class CartQuantity extends HttpServlet {
             response.sendRedirect("index.jsp");
             return;
         }
+        String referer = request.getHeader("Referer");
+        String targetPage = (referer != null) ? referer : "index";
         String path = request.getServletPath();
 
         switch (path){
@@ -32,7 +34,7 @@ public class CartQuantity extends HttpServlet {
                     int quantity = Integer.parseInt(request.getParameter("quantity"));
                     CartQuantityDTO dto = new CartQuantityDTO(userId, cartID, quantity);
                     String result = cartServices.AddQuantity(dto);
-                    response.sendRedirect("cart");
+                    response.sendRedirect(targetPage);
                 }
                 catch (Exception ex){
                     request.setAttribute("error", ex.getMessage());
@@ -45,7 +47,7 @@ public class CartQuantity extends HttpServlet {
                     int quantity = Integer.parseInt(request.getParameter("quantity"));
                     CartQuantityDTO dto = new CartQuantityDTO(userId, cartID, quantity);
                     String result = cartServices.MinusQuantity(dto);
-                    response.sendRedirect("cart");
+                    response.sendRedirect(targetPage);
                 }
                 catch (Exception ex){
                     request.setAttribute("error",ex.getMessage());

@@ -22,7 +22,7 @@ public class VerifyOTP extends HttpServlet {
         String email = (String) session.getAttribute("pendingVerificationEmail");
         String otp = request.getParameter("otp");
         if (email == null) {
-            response.sendRedirect("signup.jsp");
+            response.sendRedirect("sign-up.jsp");
             return;
         }
         try{
