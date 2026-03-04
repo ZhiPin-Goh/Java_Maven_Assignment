@@ -21,17 +21,17 @@ public class ForgetPassword extends HttpServlet {
         try {
             String email = request.getParameter("email");
             if (email == null){
-                request.setAttribute("errorMessage", "Email is null");
+                request.getSession().setAttribute("errorMessage", "Email is null");
                 response.sendRedirect(targetPage);
                 return;
             }
             String result = userServices.ForgetPassword(email);
             HttpSession session = request.getSession();
             session.setAttribute("resetEmail",email);
-            response.sendRedirect("reset-password");
+            response.sendRedirect("reset-password.jsp");
         }
         catch (Exception ex){
-            request.setAttribute("errorMessage", ex.getMessage());
+            request.getSession().setAttribute("errorMessage", ex.getMessage());
             response.sendRedirect(targetPage);
         }
     }

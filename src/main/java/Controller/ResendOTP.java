@@ -29,7 +29,7 @@ public class ResendOTP extends HttpServlet {
             response.sendRedirect(targetPage);
         }
         catch (Exception ex){
-            request.setAttribute("errorMessage", ex.getMessage());
+            session.setAttribute("errorMessage", ex.getMessage());
             response.sendRedirect(targetPage);
         }
     }

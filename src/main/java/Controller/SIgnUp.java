@@ -33,7 +33,7 @@ public class SIgnUp extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("pendingVerificationEmail", email);
             session.setAttribute("successMessage", "Sign up successful! Please check your email for the OTP code.");
-            response.sendRedirect("verify-otp");
+            response.sendRedirect("verify-otp.jsp");
         }
         catch (Exception ex){
             request.setAttribute("errorMessage", ex.getMessage());

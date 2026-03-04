@@ -32,7 +32,7 @@ public class VerifyOTP extends HttpServlet {
             response.sendRedirect("login.jsp");
         }
         catch (Exception ex){
-            request.setAttribute("errorMessage", ex.getMessage());
+            session.setAttribute("errorMessage", ex.getMessage());
             response.sendRedirect(targetPage);
         }
     }

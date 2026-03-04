@@ -22,7 +22,7 @@ public class Login extends HttpServlet{
             int userID = userServices.LoginUser(email, password);
             HttpSession session = request.getSession();
             session.setAttribute("loggedInUserID", userID);
-            response.sendRedirect("index");
+            response.sendRedirect("index.jsp");
         }
         catch (Exception ex){
             request.setAttribute("errorMessage", ex.getMessage());
