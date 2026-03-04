@@ -7,9 +7,9 @@ public class User {
     private String PhoneNumber;
     private  String Password;
     private  int OTP;
-    private boolean Status;
+    private String Status;
     private String UserCode;
-    public User(int ID, String UserName, String Email, String PhoneNumber, String Password, int OTP, boolean Status, String UserCode){
+    public User(int ID, String UserName, String Email, String PhoneNumber, String Password, int OTP, String Status, String UserCode){
         this.ID =ID;
         this.UserName = UserName;
         this.Email = Email;
@@ -64,11 +64,11 @@ public class User {
         this.OTP = OTP;
     }
 
-    public boolean isStatus() {
+    public String getStatus() {
         return Status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         Status = status;
     }
 

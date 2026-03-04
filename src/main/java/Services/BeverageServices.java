@@ -168,18 +168,6 @@ public class  BeverageServices {
         }else {
             throw  new Exception(responseMsg);
         }
-//        String data = obj.toString();
-//        byte[] dataBytes = data.getBytes();
-//
-//        OutputStream outputStream = connection.getOutputStream();
-//        outputStream.write(dataBytes);
-//        outputStream.close();
-//
-//        if (connection.getResponseCode() == 200) {
-//            System.out.println();
-//        } else {
-//            System.out.println();
-//        }
     }
     public String UpdateBeverage(Beverage beverage) throws Exception{
         URL url = new URL(BASE_URL + "UpdateBeverage");

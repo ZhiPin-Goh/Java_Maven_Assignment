@@ -2,7 +2,9 @@ package Services;
 
 import Models.User;
 import ModelsDTO.ChangePasswordDTO;
+import ModelsDTO.CreateUserDTO;
 import ModelsDTO.EditUserDTO;
+import ModelsDTO.ResetPasswordDTO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -75,7 +77,7 @@ public class UserServices {
             String phonenumber = obj.optString("phoneNumber", "N/A");
             String password = obj.optString("password", "");
             int otp = obj.optInt("otp", 0);
-            boolean status = obj.optBoolean("status", false);
+            String status = obj.optString("status", "N/A");
             String usercode = obj.optString("userCode", "N/A");
 
             list.add(new User(id, email, username, phonenumber, password, otp, status, usercode));
@@ -108,11 +110,11 @@ public class UserServices {
         String phoneNumber = obj.optString("phoneNumber", "N/A");
         String password = obj.optString("password", "N/A");
         String userCode = obj.getString("userCode");
-        boolean status = obj.getBoolean("status");
+        String status = obj.getString("status");
         return new User(userID,  name, email, phoneNumber, password, 12, status, userCode);
     }
-    public String CreateUser(User user)throws Exception{
-        URL url = new URL(BASE_URL + "CreateUser");
+    public String CreateUser(CreateUserDTO user)throws Exception{
+        URL url = new URL(BASE_URL + "SignUpUser");
         HttpURLConnection connection =(HttpURLConnection) url.openConnection();
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestMethod("POST");
@@ -124,10 +126,23 @@ public class UserServices {
         obj.put("Email", user.getEmail());
         obj.put("PhoneNumber", user.getPhoneNumber());
         obj.put("Password", user.getPassword());
-        obj.put("Otp", user.getOTP());
-        obj.put("Status", user.isStatus());
-        obj.put("UserCode", user.getUserCode());
 
+        OutputStream outputStream = connection.getOutputStream();
+        outputStream.write(obj.toString().getBytes("UTF-8"));
+        outputStream.close();
+
+        return getResponseFromConnection(connection);
+    }
+    public String VerifyOTP(String email, String otp) throws Exception{
+        URL url = new URL(BASE_URL + "VerifyOTP");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setDoOutput(true);
+
+        JSONObject obj = new JSONObject();
+        obj.put("Email", email);
+        obj.put("OTP", otp);
 
         OutputStream outputStream = connection.getOutputStream();
         outputStream.write(obj.toString().getBytes("UTF-8"));
@@ -212,6 +227,56 @@ public class UserServices {
         obj.put("ID", password.getUserID());
         obj.put("CurrentPassword", password.getCurrentPassword());
         obj.put("NewPassword", password.getNewPassword());
+
+        OutputStream outputStream = connection.getOutputStream();
+        outputStream.write(obj.toString().getBytes("UTF-8"));
+        outputStream.close();
+
+        return getResponseFromConnection(connection);
+    }
+    public String ResendOTP(String email) throws Exception{
+        URL url = new URL(BASE_URL + "ResendOTP");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
+
+        JSONObject obj = new JSONObject();
+        obj.put("Email", email);
+
+        OutputStream outputStream = connection.getOutputStream();
+        outputStream.write(obj.toString().getBytes("UTF-8"));
+        outputStream.close();
+
+        return getResponseFromConnection(connection);
+    }
+    public String ForgetPassword(String email) throws Exception{
+        URL url = new URL(BASE_URL + "ForgetPassword");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
+
+        JSONObject obj = new JSONObject();
+        obj.put("Email", email);
+
+        OutputStream outputStream = connection.getOutputStream();
+        outputStream.write(obj.toString().getBytes("UTF-8"));
+        outputStream.close();
+
+        return getResponseFromConnection(connection);
+    }
+    public String ResetPassword(ResetPasswordDTO request) throws Exception{
+        URL url = new URL(BASE_URL + "ResetPassword");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
+
+        JSONObject obj = new JSONObject();
+        obj.put("Email", request.getEmail());
+        obj.put("NewPassword", request.getNewPassword());
+        obj.put("OTP", request.getOTP());
 
         OutputStream outputStream = connection.getOutputStream();
         outputStream.write(obj.toString().getBytes("UTF-8"));

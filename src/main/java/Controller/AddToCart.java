@@ -21,7 +21,7 @@ public class AddToCart extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String referer = request.getHeader("Referer");
-        String targetPage = (referer != null) ? referer : "home";
+        String targetPage = (referer != null) ? referer : "index";
         Integer userId = (Integer) session.getAttribute("loggedInUserID");
         if (userId == null){
             response.sendRedirect("index.jsp");
