@@ -21,7 +21,7 @@ public class CheckOut extends HttpServlet {
         HttpSession session = request.getSession();
         Integer userId = (Integer) session.getAttribute("loggedInUserID");
         if (userId == null){
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("sign-up.jsp");
             return;
         }
         try{

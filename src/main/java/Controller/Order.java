@@ -1,8 +1,10 @@
 package Controller;
 
+import Models.User;
 import ModelsDTO.TransactionDTO;
 import ModelsDTO.TransactionPreparingDTO;
 import Services.TransactionServices;
+import Services.UserServices;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,35 +15,41 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/orderList", "/orderDetails", "/orderPreparing"})
+@WebServlet(urlPatterns = { "/orderList", "/orderDetails", "/orderPreparing" })
 public class Order extends HttpServlet {
     TransactionServices transactionServices = new TransactionServices();
+    UserServices userServices = new UserServices();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         HttpSession session = request.getSession();
         Integer userId = (Integer) session.getAttribute("loggedInUserID");
 
-        if (userId == null){
-            response.sendRedirect("index.jsp");
+        if (userId == null) {
+            response.sendRedirect("sign-up.jsp");
             return;
         }
 
         String path = request.getServletPath();
-        switch (path){
+        try {
+            User user = userServices.SearchUserByID(userId);
+            request.setAttribute("user", user);
+        } catch (Exception ignored) {
+        }
+        switch (path) {
             case "/orderList":
-                try{
+                try {
                     List<TransactionDTO> orderList = transactionServices.GetTransactionHistory(userId);
                     request.setAttribute("orderList", orderList);
                     request.getRequestDispatcher("order-history.jsp").forward(request, response);
-                }
-                catch (Exception ex){
+                } catch (Exception ex) {
                     request.setAttribute("errorMessage", ex.getMessage());
                     request.getRequestDispatcher("profile.jsp").forward(request, response);
                 }
                 break;
             case "/orderDetails":
-                try{
+                try {
                     String transNo = request.getParameter("transactionNo");
 
                     if (transNo == null || transNo.isEmpty()) {
@@ -54,19 +62,17 @@ public class Order extends HttpServlet {
                     request.setAttribute("orderDetails", orderDetails);
 
                     request.getRequestDispatcher("order-details.jsp").forward(request, response);
-                }
-                catch (Exception ex){
-                    request.setAttribute("errorMessage","Failed to load details: " + ex.getMessage());
+                } catch (Exception ex) {
+                    request.setAttribute("errorMessage", "Failed to load details: " + ex.getMessage());
                     request.getRequestDispatcher("profile.jsp").forward(request, response);
                 }
                 break;
             case "orderPreparing":
-                try{
-                     List<TransactionPreparingDTO> preparing = transactionServices.GetTransactionPreparing(userId);
-                     request.setAttribute("preparing", preparing);
-                     request.getRequestDispatcher("index.jsp").forward(request, response);
-                }
-                catch (Exception ex){
+                try {
+                    List<TransactionPreparingDTO> preparing = transactionServices.GetTransactionPreparing(userId);
+                    request.setAttribute("preparing", preparing);
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                } catch (Exception ex) {
                     request.setAttribute("errorMessage", ex.getMessage());
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                 }

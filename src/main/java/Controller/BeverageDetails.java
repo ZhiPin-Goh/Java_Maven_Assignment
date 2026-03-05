@@ -35,7 +35,7 @@ public class BeverageDetails extends HttpServlet {
             response.sendRedirect("index.jsp");
         } catch (Exception ex){
             request.setAttribute("error", ex.getMessage());
-            request.getRequestDispatcher("index.jsp").forward(request,response);
+            request.getRequestDispatcher("index").forward(request,response);
         }
     }
 }

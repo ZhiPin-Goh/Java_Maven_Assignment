@@ -151,32 +151,36 @@ public class TransactionServices {
         connection.connect();
 
         int responseCode = connection.getResponseCode();
-        if (responseCode !=200){
-            throw new Exception("Server Error: "+ responseCode);
+        if (responseCode != 200) {
+            throw new Exception("Server Error: " + responseCode);
         }
 
         InputStream inputStream = connection.getInputStream();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
         StringBuilder result = new StringBuilder();
         String line;
         while ((line = reader.readLine()) != null) {
             result.append(line);
         }
+        reader.close();
 
         JSONObject obj = new JSONObject(result.toString());
+
+        // ✅ 修正：将 Key 的首字母改为大写，以匹配 .NET 的匿名对象属性名
         int userID = obj.getInt("userID");
         String transNo = obj.getString("transactionNo");
         BigDecimal totalAmount = BigDecimal.valueOf(obj.getDouble("totalAmount"));
         String orderTime = obj.getString("orderTime");
         String status = obj.getString("status");
-        String pickupCode = obj.optString("pickupCode", "N/A");
+        String pickupCode = obj.optString("pickupCode", "N/A"); // 使用 optString 更安全
 
         JSONArray itemsArray = obj.getJSONArray("items");
         List<TransactionItemsDTO> itemList = new ArrayList<>();
 
-        for (int j =0; j< itemsArray.length(); j++){
+        for (int j = 0; j < itemsArray.length(); j++) {
             JSONObject itemObj = itemsArray.getJSONObject(j);
 
+            // ✅ 修正：Items 列表里的字段也要大写
             itemList.add(new TransactionItemsDTO(
                     itemObj.getString("beverageName"),
                     itemObj.getString("imagePath"),

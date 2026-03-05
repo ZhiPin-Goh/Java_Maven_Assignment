@@ -23,15 +23,17 @@ public class Cart extends HttpServlet {
            HttpSession session = request.getSession();
            Integer userId = (Integer) session.getAttribute("loggedInUserID");
            if (userId == null){
-               response.sendRedirect("index.jsp");
+               response.sendRedirect("sign-up.jsp");
                return;
            }
            GetCartDTO cartData = cartServices.GetUserCartList(userId);
            request.setAttribute("cartData", cartData);
+           request.getRequestDispatcher("cart.jsp").forward(request,response);
        }
        catch (Exception ex){
            request.setAttribute("error", ex.getMessage());
+           request.getRequestDispatcher("sign-up.jsp").forward(request,response);
+
        }
-        request.getRequestDispatcher("cart.jsp").forward(request,response);
     }
 }

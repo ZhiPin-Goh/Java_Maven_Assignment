@@ -24,7 +24,7 @@ public class AddToCart extends HttpServlet {
         String targetPage = (referer != null) ? referer : "index";
         Integer userId = (Integer) session.getAttribute("loggedInUserID");
         if (userId == null){
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("sign-up.jsp");
             return;
         }
         try{

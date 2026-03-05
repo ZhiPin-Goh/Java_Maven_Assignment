@@ -23,7 +23,7 @@ public class ChangePassword extends HttpServlet {
         Integer userId = (Integer) session.getAttribute("loggedInUserID");
         String Password_Pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).{8,}$";
         if (userId == null){
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("sign-up.jsp");
             return;
         }
         try{
