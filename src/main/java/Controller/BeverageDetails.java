@@ -2,6 +2,7 @@ package Controller;
 
 import Models.Beverage;
 import Services.BeverageServices;
+import Services.DrinkOptionServices;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,6 +14,8 @@ import java.io.IOException;
 @WebServlet("/beverageDetails")
 public class BeverageDetails extends HttpServlet {
     private BeverageServices beverageServices = new BeverageServices();
+    DrinkOptionServices optionServices = new DrinkOptionServices();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
@@ -25,6 +28,10 @@ public class BeverageDetails extends HttpServlet {
             Beverage beverage = beverageServices.GetBeverageByID(beverageid);
             if(beverage != null){
                 request.setAttribute("beverage", beverage);
+                DrinkOptionServices optionServices = new DrinkOptionServices();
+                request.setAttribute("sizes", optionServices.GetDrinkSize());
+                request.setAttribute("sugars", optionServices.GetDrinkSugar());
+                request.setAttribute("ices", optionServices.GetDrinkIce());
                 request.getRequestDispatcher("beverage-details.jsp").forward(request, response);
             }
             else{

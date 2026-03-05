@@ -38,15 +38,24 @@
                                 </div>
                                 <% } %>
 
-                                    <form action="${pageContext.request.contextPath}/forgetPassword" method="post">
+                                    <form action="${pageContext.request.contextPath}/forgetPassword" method="post" onsubmit="return handleSubmit(this)">
                                         <div class="form-group">
                                             <label class="form-label" for="email">Email Address</label>
                                             <input type="email" id="email" name="email" class="form-input"
                                                 placeholder="you@example.com" required>
                                         </div>
-                                        <button type="submit" class="btn btn-emerald btn-block"
+                                        <button type="submit" id="submitBtn" class="btn btn-emerald btn-block"
                                             style="border-radius:0.75rem;padding:0.75rem;">Send Reset Code</button>
                                     </form>
+                                    <script>
+                                        function handleSubmit(form) {
+                                            var btn = form.querySelector('#submitBtn');
+                                            if (btn.disabled) return false;
+                                            btn.disabled = true;
+                                            btn.innerHTML = '<span class="spinner"></span> Sending...';
+                                            return true;
+                                        }
+                                    </script>
                         </div>
                     </div>
                 </div>

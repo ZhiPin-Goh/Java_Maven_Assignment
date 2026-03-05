@@ -43,7 +43,8 @@
                                 </div>
                                 <% } %>
 
-                                    <form action="${pageContext.request.contextPath}/resetPassword" method="post">
+                                    <form action="${pageContext.request.contextPath}/resetPassword" method="post"
+                                        onsubmit="return handleResetSubmit(this)">
                                         <div class="form-group">
                                             <label class="form-label" for="otp">OTP Code</label>
                                             <input type="text" id="otp" name="otp" class="form-input"
@@ -73,7 +74,7 @@
                                                 required oninput="checkMatch()">
                                             <p class="form-error hidden" id="matchError">Passwords do not match.</p>
                                         </div>
-                                        <button type="submit" class="btn btn-emerald btn-block"
+                                        <button type="submit" id="resetBtn" class="btn btn-emerald btn-block"
                                             style="border-radius:0.75rem;padding:0.75rem;">Reset Password</button>
                                     </form>
                         </div>
@@ -92,6 +93,13 @@
                     var p2 = document.getElementById('confirmpassword').value;
                     var err = document.getElementById('matchError');
                     if (p2 && p1 !== p2) { err.classList.remove('hidden'); } else { err.classList.add('hidden'); }
+                }
+                function handleResetSubmit(form) {
+                    var btn = document.getElementById('resetBtn');
+                    if (btn.disabled) return false;
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="spinner"></span> Resetting...';
+                    return true;
                 }
             </script>
     </body>

@@ -28,6 +28,9 @@
                         <a href="${pageContext.request.contextPath}/index" class="logo"
                             style="display:none;color:#065F46;text-align:center;margin-bottom:2rem;">Zen Tea</a>
                         <div class="auth-card">
+                            <a href="${pageContext.request.contextPath}/index"
+                                class="text-sm font-medium text-emerald-600 mb-6"
+                                style="display:inline-flex;align-items:center;gap:0.25rem;">&larr; Back to home</a>
                             <h1 class="font-serif text-3xl font-bold text-center mb-2">Sign In</h1>
                             <p class="text-gray-500 text-center mb-8">Enter your details to access your account.</p>
 

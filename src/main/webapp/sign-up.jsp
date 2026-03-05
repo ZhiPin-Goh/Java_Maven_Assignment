@@ -13,7 +13,7 @@
         <% String signupError=(String) request.getAttribute("errorMessage"); %>
             <div class="auth-layout">
                 <div class="auth-image">
-                    <img src="https://images.unsplash.com/photo-1517244326705-73955d81540f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                    <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
                         alt="Zen Tea">
                     <div class="auth-image-overlay"></div>
                     <div class="auth-image-content">
@@ -26,6 +26,9 @@
                 <div class="auth-form-side">
                     <div class="auth-form-container">
                         <div class="auth-card">
+                            <a href="${pageContext.request.contextPath}/index"
+                                class="text-sm font-medium text-emerald-600 mb-6"
+                                style="display:inline-flex;align-items:center;gap:0.25rem;">&larr; Back to home</a>
                             <h1 class="font-serif text-3xl font-bold text-center mb-2">Create Account</h1>
                             <p class="text-gray-500 text-center mb-8">Join us to start earning rewards today.</p>
 
@@ -35,7 +38,7 @@
                                 <% } %>
 
                                     <form action="${pageContext.request.contextPath}/signUp" method="post"
-                                        id="signupForm">
+                                        id="signupForm" onsubmit="return handleSignupSubmit(this)">
                                         <div class="form-group">
                                             <label class="form-label" for="username">Full Name</label>
                                             <input type="text" id="username" name="username" class="form-input"
@@ -116,6 +119,14 @@
                 function togglePassword() {
                     var input = document.getElementById('password');
                     input.type = input.type === 'password' ? 'text' : 'password';
+                }
+                function handleSignupSubmit(form) {
+                    var btn = document.getElementById('submitBtn');
+                    if (btn.dataset.loading === 'true') return false;
+                    btn.dataset.loading = 'true';
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="spinner"></span> Creating Account...';
+                    return true;
                 }
             </script>
     </body>

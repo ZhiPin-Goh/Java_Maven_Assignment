@@ -274,9 +274,9 @@ public class UserServices {
         connection.setDoOutput(true);
 
         JSONObject obj = new JSONObject();
-        obj.put("Email", request.getEmail());
-        obj.put("NewPassword", request.getNewPassword());
-        obj.put("OTP", request.getOTP());
+        obj.put("email", request.getEmail());
+        obj.put("newPassword", request.getNewPassword());
+        obj.put("otp", request.getOTP());
 
         OutputStream outputStream = connection.getOutputStream();
         outputStream.write(obj.toString().getBytes("UTF-8"));

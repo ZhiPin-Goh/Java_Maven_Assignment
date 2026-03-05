@@ -48,7 +48,7 @@
                                         <% } %>
 
                                             <form action="${pageContext.request.contextPath}/verifyOtp" method="post"
-                                                id="otpForm">
+                                                id="otpForm" onsubmit="return handleVerifySubmit()">
                                                 <input type="hidden" name="otp" id="otpHidden">
                                                 <div class="otp-inputs mb-8">
                                                     <input type="text" maxlength="1" class="otp-input"
@@ -69,9 +69,10 @@
                                                     disabled>Verify & Complete</button>
                                             </form>
                                             <form action="${pageContext.request.contextPath}/resendOtp" method="post"
-                                                class="text-center">
+                                                class="text-center" onsubmit="return handleResendSubmit(this)">
                                                 <p class="text-sm text-gray-500">Didn't receive the code? <button
-                                                        type="submit" class="font-medium text-emerald-600"
+                                                        type="submit" id="resendBtn"
+                                                        class="font-medium text-emerald-600"
                                                         style="background:none;border:none;cursor:pointer;">Resend
                                                         Code</button></p>
                                             </form>
@@ -96,6 +97,23 @@
                     document.getElementById('verifyBtn').disabled = otp.length !== 6;
                 }
                 document.getElementById('otpForm').addEventListener('submit', function () { updateOtp(); });
+                function handleVerifySubmit() {
+                    var btn = document.getElementById('verifyBtn');
+                    if (btn.dataset.loading === 'true') return false;
+                    btn.dataset.loading = 'true';
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="spinner"></span> Verifying...';
+                    updateOtp();
+                    return true;
+                }
+                function handleResendSubmit(form) {
+                    var btn = document.getElementById('resendBtn');
+                    if (btn.disabled) return false;
+                    btn.disabled = true;
+                    btn.style.opacity = '0.6';
+                    btn.innerHTML = '<span class="spinner" style="width:12px;height:12px;border-width:2px;"></span> Sending...';
+                    return true;
+                }
             </script>
     </body>
 

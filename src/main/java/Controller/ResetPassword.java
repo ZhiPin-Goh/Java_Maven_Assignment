@@ -43,7 +43,7 @@ public class ResetPassword extends HttpServlet {
                 request.getRequestDispatcher("reset-password.jsp").forward(request, response);
                 return;
             }
-            ResetPasswordDTO dto = new ResetPasswordDTO(email, otp, newPassword);
+            ResetPasswordDTO dto = new ResetPasswordDTO(email, newPassword, otp);
             String result = userServices.ResetPassword(dto);
 
             session.removeAttribute("resetEmail");
