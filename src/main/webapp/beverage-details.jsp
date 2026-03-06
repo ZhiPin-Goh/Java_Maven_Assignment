@@ -40,7 +40,7 @@
                 <% if (beverage.getBeverageCategory() !=null && !beverage.getBeverageCategory().equals("N/A")) { %>
                     <div class="card-tag"><%= beverage.getBeverageCategory() %></div>
                 <% } %>
-                <img src="<%= imgBase %><%= beverage.getBeverageImagePath() %>"
+                <img src="<%= beverage.getBeverageImagePath() %>"
                      alt="<%= beverage.getBeverageName() %>"
                      style="width:100%;max-width:28rem;margin:0 auto;border-radius:1rem;box-shadow:0 25px 50px rgba(0,0,0,0.15);transition:transform 0.5s;"
                      onmouseover="this.style.transform='scale(1.05)'"

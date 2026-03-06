@@ -160,6 +160,25 @@
                                                             <div class="filter-tabs">
                                                                 <button class="filter-tab active"
                                                                     onclick="filterCategory('all', this)">All</button>
+                                                                <% java.util.LinkedHashSet<String> categories = new
+                                                                    java.util.LinkedHashSet<>();
+                                                                        if (beverages != null) {
+                                                                        for (Beverage bev : beverages) {
+                                                                        if (bev.isAvailable() &&
+                                                                        bev.getBeverageCategory() != null
+                                                                        && !bev.getBeverageCategory().equals("N/A")
+                                                                        && !bev.getBeverageCategory().isEmpty()) {
+                                                                        categories.add(bev.getBeverageCategory());
+                                                                        }
+                                                                        }
+                                                                        }
+                                                                        for (String cat : categories) {
+                                                                        %>
+                                                                        <button class="filter-tab"
+                                                                            onclick="filterCategory('<%= cat %>', this)">
+                                                                            <%= cat %>
+                                                                        </button>
+                                                                        <% } %>
                                                             </div>
                                                         </div>
 
@@ -172,7 +191,7 @@
                                                                         <div class="card-img">
                                                                             <a
                                                                                 href="${pageContext.request.contextPath}/beverageDetails?id=<%= b.getID() %>">
-                                                                                <img src="http://localhost:5018<%= b.getBeverageImagePath() %>"
+                                                                                <img src="<%= b.getBeverageImagePath() %>"
                                                                                     alt="<%= b.getBeverageName() %>">
                                                                             </a>
                                                                             <% if (b.getBeverageCategory() !=null &&

@@ -33,7 +33,7 @@
                                                         <% for (CartDTO item : cartItems) { %>
                                                             <div class="cart-item">
                                                                 <div class="cart-item-img" style="background:#ECFDF5;">
-                                                                    <img src="http://localhost:5018<%= item.getImagePath() %>"
+                                                                    <img src="<%= item.getImagePath() %>"
                                                                         alt="<%= item.getBeverageName() %>">
                                                                 </div>
                                                                 <div class="cart-item-info" style="flex:1;">

@@ -117,7 +117,7 @@
                                                 style="display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid #F3F4F6;align-items:center;">
                                                 <div
                                                     style="width:4rem;height:4rem;border-radius:0.5rem;overflow:hidden;flex-shrink:0;background:#F3F4F6;">
-                                                    <img src="http://localhost:5018<%= item.getImagePath() %>"
+                                                    <img src="<%= item.getImagePath() %>"
                                                         alt="<%= item.getBeverageName() %>"
                                                         style="width:100%;height:100%;object-fit:cover;">
                                                 </div>

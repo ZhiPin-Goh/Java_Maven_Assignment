@@ -32,12 +32,6 @@
                                     <% if (beverages !=null && !beverages.isEmpty()) { %>
 
                                         <% if (keyword==null || keyword.isEmpty()) { %>
-                                            <div class="flex justify-center mb-8" style="flex-wrap:wrap;">
-                                                <div class="filter-tabs">
-                                                    <button class="filter-tab active"
-                                                        onclick="filterDrinks('all', this)">All</button>
-                                                </div>
-                                            </div>
                                             <% } %>
 
                                                 <div class="product-grid" id="drinksGrid">
@@ -47,7 +41,7 @@
                                                             <div class="card-img" style="height:16rem;">
                                                                 <a
                                                                     href="${pageContext.request.contextPath}/beverageDetails?id=<%= b.getID() %>">
-                                                                    <img src="http://localhost:5018<%= b.getBeverageImagePath() %>"
+                                                                    <img src="<%= b.getBeverageImagePath() %>"
                                                                         alt="<%= b.getBeverageName() %>">
                                                                 </a>
                                                                 <% if (b.getBeverageCategory() !=null &&
