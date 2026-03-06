@@ -20,40 +20,172 @@
 
                                         <main>
                                             <!-- Hero Section -->
-                                            <section class="hero">
-                                                <div class="hero-content">
-                                                    <div class="animate-in">
-                                                        <div class="hero-tag">
-                                                            <svg width="16" height="16" fill="none"
-                                                                stroke="currentColor" stroke-width="2"
-                                                                viewBox="0 0 24 24">
-                                                                <path
-                                                                    d="M12 3l1.912 5.813h6.124l-4.962 3.574L17 18.2l-5-3.574L7 18.2l1.926-5.813L3.964 8.813h6.124z" />
-                                                            </svg>
-                                                            <span>Premium Artisan Tea</span>
-                                                        </div>
-                                                        <h1>Find Your Zen in <br><span>Every Sip.</span></h1>
-                                                        <p>Crafted with ethically sourced ingredients to bring balance
-                                                            and harmony to your busy day. Experience the art of tea.</p>
-                                                        <div class="flex gap-4" style="flex-wrap:wrap;">
-                                                            <a href="${pageContext.request.contextPath}/index"
-                                                                class="btn btn-primary btn-lg">Order Now <svg width="20"
-                                                                    height="20" fill="none" stroke="currentColor"
-                                                                    stroke-width="2" viewBox="0 0 24 24"
-                                                                    style="margin-left:0.5rem;">
-                                                                    <path d="M5 12h14M12 5l7 7-7 7" />
-                                                                </svg></a>
-                                                            <a href="#status" class="btn btn-outline btn-lg">Track
-                                                                Order</a>
+                                            <!-- Hero Carousel Section -->
+                                            <section class="hero carousel-hero">
+                                                <div class="carousel-slides" id="heroCarousel">
+                                                    <!-- Slide 1 -->
+                                                    <div class="carousel-slide active">
+                                                        <div class="hero-content">
+                                                            <div class="animate-in">
+                                                                <div class="hero-tag">
+                                                                    <svg width="16" height="16" fill="none"
+                                                                        stroke="currentColor" stroke-width="2"
+                                                                        viewBox="0 0 24 24">
+                                                                        <path
+                                                                            d="M12 3l1.912 5.813h6.124l-4.962 3.574L17 18.2l-5-3.574L7 18.2l1.926-5.813L3.964 8.813h6.124z" />
+                                                                    </svg>
+                                                                    <span>Premium Artisan Tea</span>
+                                                                </div>
+                                                                <h1>Find Your Zen in <br><span>Every Sip.</span></h1>
+                                                                <p>Crafted with ethically sourced ingredients to bring
+                                                                    balance
+                                                                    and harmony to your busy day. Experience the art of
+                                                                    tea.</p>
+                                                                <div class="flex gap-4" style="flex-wrap:wrap;">
+                                                                    <a href="${pageContext.request.contextPath}/drinks"
+                                                                        class="btn btn-primary btn-lg">Order Now <svg
+                                                                            width="20" height="20" fill="none"
+                                                                            stroke="currentColor" stroke-width="2"
+                                                                            viewBox="0 0 24 24"
+                                                                            style="margin-left:0.5rem;">
+                                                                            <path d="M5 12h14M12 5l7 7-7 7" />
+                                                                        </svg></a>
+                                                                    <a href="#status"
+                                                                        class="btn btn-outline btn-lg">Track
+                                                                        Order</a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="hero-img-wrap animate-in"
+                                                                style="animation-delay:0.2s;">
+                                                                <img src="https://images.unsplash.com/photo-1515823662972-da6a2e4d3002?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                                                    alt="Matcha Drink">
+                                                                <div class="hero-img-overlay"></div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="hero-img-wrap animate-in" style="animation-delay:0.2s;">
-                                                        <img src="https://images.unsplash.com/photo-1515823662972-da6a2e4d3002?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                                                            alt="Matcha Drink">
-                                                        <div class="hero-img-overlay"></div>
+
+                                                    <!-- Slide 2 -->
+                                                    <div class="carousel-slide">
+                                                        <div class="hero-content">
+                                                            <div class="animate-in">
+                                                                <div class="hero-tag">
+                                                                    <svg width="16" height="16" fill="none"
+                                                                        stroke="currentColor" stroke-width="2"
+                                                                        viewBox="0 0 24 24">
+                                                                        <path
+                                                                            d="M12 3v18M5.25 10.5h13.5M5.25 13.5h13.5" />
+                                                                    </svg>
+                                                                    <span>New Arrival</span>
+                                                                </div>
+                                                                <h1>Awaken Your Senses with <br><span>Earl Grey.</span>
+                                                                </h1>
+                                                                <p>A classic blend elevated to new heights. Discover the
+                                                                    rich, citrusy notes of our premium bergamot oil
+                                                                    infused black tea.</p>
+                                                                <div class="flex gap-4" style="flex-wrap:wrap;">
+                                                                    <a href="${pageContext.request.contextPath}/drinks"
+                                                                        class="btn btn-primary btn-lg">View Drinks</a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="hero-img-wrap animate-in"
+                                                                style="animation-delay:0.2s;">
+                                                                <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=800&q=80"
+                                                                    alt="Earl Grey Tea">
+                                                                <div class="hero-img-overlay"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Slide 3 -->
+                                                    <div class="carousel-slide">
+                                                        <div class="hero-content">
+                                                            <div class="animate-in">
+                                                                <div class="hero-tag">
+                                                                    <svg width="16" height="16" fill="none"
+                                                                        stroke="currentColor" stroke-width="2"
+                                                                        viewBox="0 0 24 24">
+                                                                        <path
+                                                                            d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                                                        <path
+                                                                            d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                                                    </svg>
+                                                                    <span>Special Offer</span>
+                                                                </div>
+                                                                <h1>Buy 1 Get 1 Free <br><span>On All Pastries.</span>
+                                                                </h1>
+                                                                <p>Pair your perfect cup of tea with our freshly baked
+                                                                    croissants and pastries. Perfect for a cozy
+                                                                    afternoon.</p>
+                                                                <div class="flex gap-4" style="flex-wrap:wrap;">
+                                                                    <a href="${pageContext.request.contextPath}/locations.jsp"
+                                                                        class="btn btn-primary btn-lg">Find a Store</a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="hero-img-wrap animate-in"
+                                                                style="animation-delay:0.2s;">
+                                                                <img src="https://images.unsplash.com/photo-1576092762791-dd9e2220abd1?w=800&q=80"
+                                                                    alt="Delicious Pastries">
+                                                                <div class="hero-img-overlay"></div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
+
+                                                <!-- Controls -->
+                                                <button class="carousel-btn prev" onclick="moveSlide(-1)">
+                                                    <svg width="24" height="24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" viewBox="0 0 24 24">
+                                                        <path d="M15 18l-6-6 6-6" />
+                                                    </svg>
+                                                </button>
+                                                <button class="carousel-btn next" onclick="moveSlide(1)">
+                                                    <svg width="24" height="24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" viewBox="0 0 24 24">
+                                                        <path d="M9 18l6-6-6-6" />
+                                                    </svg>
+                                                </button>
+
+                                                <div class="carousel-dots" id="heroDots">
+                                                    <span class="dot active" onclick="currentSlide(0)"></span>
+                                                    <span class="dot" onclick="currentSlide(1)"></span>
+                                                    <span class="dot" onclick="currentSlide(2)"></span>
+                                                </div>
                                             </section>
+
+                                            <script>
+                                                let slideIndex = 0;
+                                                const slides = document.querySelectorAll('.carousel-slide');
+                                                const dots = document.querySelectorAll('.carousel-dots .dot');
+                                                let autoPlayTimer;
+
+                                                function showSlide(n) {
+                                                    slides.forEach(slide => slide.classList.remove('active'));
+                                                    dots.forEach(dot => dot.classList.remove('active'));
+
+                                                    slideIndex = (n + slides.length) % slides.length;
+
+                                                    slides[slideIndex].classList.add('active');
+                                                    dots[slideIndex].classList.add('active');
+                                                }
+
+                                                function moveSlide(step) {
+                                                    showSlide(slideIndex + step);
+                                                    resetAutoPlay();
+                                                }
+
+                                                function currentSlide(n) {
+                                                    showSlide(n);
+                                                    resetAutoPlay();
+                                                }
+
+                                                function resetAutoPlay() {
+                                                    clearInterval(autoPlayTimer);
+                                                    autoPlayTimer = setInterval(() => moveSlide(1), 5000);
+                                                }
+
+                                                // Initialize autoplay
+                                                resetAutoPlay();
+                                            </script>
 
                                             <!-- Live Order Status -->
                                             <% if (preparing !=null && !preparing.isEmpty()) { %>
