@@ -52,6 +52,8 @@
                                                                         <div class="flex items-center gap-2">
                                                                             <input type="checkbox" name="cardIDs"
                                                                                 value="<%= item.getCartID() %>" checked
+                                                                                data-price="<%= item.getTotalPrice() %>"
+                                                                                onchange="updateCartTotals()"
                                                                                 style="accent-color:#059669;width:16px;height:16px;">
                                                                             <div class="cart-qty">
                                                                                 <button type="button"
@@ -113,21 +115,28 @@
                                                 <div class="cart-summary">
                                                     <div class="summary-card">
                                                         <h2 class="text-xl font-bold mb-6">Order Summary</h2>
-                                                        <div class="summary-row"><span>Subtotal (<%= cartItems.size() %>
-                                                                    items)</span><span>RM <%= String.format("%.2f",
-                                                                    subtotalAmt) %></span></div>
-                                                        <div class="summary-row"><span>SST (6%)</span><span>RM <%=
-                                                                    String.format("%.2f", sstAmt) %></span></div>
+                                                        <div class="summary-row">
+                                                            <span>Subtotal (<span id="cartItemCount">
+                                                                    <%= cartItems.size() %>
+                                                                </span> items)</span>
+                                                            <span id="cartSubtotal">RM <%= String.format("%.2f",
+                                                                    subtotalAmt) %></span>
+                                                        </div>
+                                                        <div class="summary-row">
+                                                            <span>SST (6%)</span>
+                                                            <span id="cartSst">RM <%= String.format("%.2f", sstAmt) %>
+                                                            </span>
+                                                        </div>
                                                         <div class="summary-row"><span>Pickup
                                                                 Fee</span><span>Free</span></div>
                                                         <div class="summary-total">
                                                             <span class="label">Total</span>
-                                                            <span class="amount">RM <%= String.format("%.2f", totalAmt)
-                                                                    %></span>
+                                                            <span class="amount" id="cartTotal">RM <%=
+                                                                    String.format("%.2f", totalAmt) %></span>
                                                         </div>
                                                         <p class="text-xs text-gray-500 mt-1" style="text-align:right;">
                                                             Inclusive of 6% SST</p>
-                                                        <button type="submit"
+                                                        <button type="submit" id="checkoutBtn"
                                                             class="btn btn-emerald btn-block btn-lg mt-6"
                                                             style="border-radius:0.75rem;">
                                                             Checkout
@@ -183,6 +192,43 @@
                                 document.getElementById('cartActionQty').value = quantity;
                                 form.submit();
                             }
+                            function updateCartTotals() {
+                                var checkboxes = document.querySelectorAll('input[name="cardIDs"]');
+                                var totalAmt = 0;
+                                var selectedCount = 0;
+
+                                checkboxes.forEach(function (cb) {
+                                    if (cb.checked) {
+                                        var price = parseFloat(cb.getAttribute('data-price')) || 0;
+                                        totalAmt += price;
+                                        selectedCount++;
+                                    }
+                                });
+
+                                var sstAmt = Math.round((totalAmt / 1.06 * 0.06) * 100) / 100;
+                                var subtotalAmt = Math.round((totalAmt - sstAmt) * 100) / 100;
+
+                                document.getElementById('cartItemCount').innerText = selectedCount;
+                                document.getElementById('cartSubtotal').innerText = 'RM ' + subtotalAmt.toFixed(2);
+                                document.getElementById('cartSst').innerText = 'RM ' + sstAmt.toFixed(2);
+                                document.getElementById('cartTotal').innerText = 'RM ' + totalAmt.toFixed(2);
+
+                                var checkoutBtn = document.getElementById('checkoutBtn');
+                                if (selectedCount === 0) {
+                                    checkoutBtn.disabled = true;
+                                    checkoutBtn.style.opacity = '0.5';
+                                    checkoutBtn.style.cursor = 'not-allowed';
+                                } else {
+                                    checkoutBtn.disabled = false;
+                                    checkoutBtn.style.opacity = '1';
+                                    checkoutBtn.style.cursor = 'pointer';
+                                }
+                            }
+
+                            // Initialize totals on page load
+                            window.onload = function () {
+                                updateCartTotals();
+                            };
                         </script>
 
                         <%@ include file="Layout/footer.jsp" %>

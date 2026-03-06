@@ -13,7 +13,7 @@
         <% String signupError=(String) request.getAttribute("errorMessage"); %>
             <div class="auth-layout">
                 <div class="auth-image">
-                    <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                    <img src="https://images.unsplash.com/photo-1536935338788-846bb9981813?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
                         alt="Zen Tea">
                     <div class="auth-image-overlay"></div>
                     <div class="auth-image-content">
