@@ -112,8 +112,39 @@
                     btn.disabled = true;
                     btn.style.opacity = '0.6';
                     btn.innerHTML = '<span class="spinner" style="width:12px;height:12px;border-width:2px;"></span> Sending...';
+                    var expiry = Math.floor(Date.now() / 1000) + 60;
+                    localStorage.setItem('otpResendTimer', expiry.toString());
                     return true;
                 }
+
+                function startResendCountdown() {
+                    var btn = document.getElementById('resendBtn');
+                    if (!btn) return;
+                    var timeLeft = localStorage.getItem('otpResendTimer');
+                    if (!timeLeft) {
+                        var expiry = Math.floor(Date.now() / 1000) + 60;
+                        localStorage.setItem('otpResendTimer', expiry.toString());
+                        timeLeft = expiry.toString();
+                    }
+                    var now = Math.floor(Date.now() / 1000);
+                    var expiryInt = parseInt(timeLeft, 10);
+                    if (now >= expiryInt) {
+                        localStorage.removeItem('otpResendTimer');
+                        btn.disabled = false;
+                        btn.style.opacity = '1';
+                        btn.innerHTML = 'Resend Code';
+                        return;
+                    }
+                    var remaining = expiryInt - now;
+                    btn.disabled = true;
+                    btn.style.opacity = '0.6';
+                    btn.innerHTML = 'Resend Code (' + remaining + 's)';
+                    setTimeout(startResendCountdown, 1000);
+                }
+
+                document.addEventListener('DOMContentLoaded', function () {
+                    startResendCountdown();
+                });
             </script>
     </body>
 

@@ -129,7 +129,7 @@ public class BeverageServices {
         boolean hashotoption = obj.optBoolean("hasHotOption", false);
         boolean hasiceoption = obj.optBoolean("hasIceOption", false);
         return new Beverage(id, beveragename, beveragedescription, beveragecategory, beverageimage, beveragecode, price,
-                isavailable, hasiceoption, hasiceoption);
+                isavailable, hashotoption, hasiceoption);
     }
 
     public String CreateBeverage(Beverage beverage) throws Exception {
@@ -191,7 +191,7 @@ public class BeverageServices {
         obj.put("beveragedescription", beverage.getBeverageDescription());
         obj.put("beveragecategory", beverage.getBeverageCategory());
         obj.put("price", beverage.getPrice());
-        obj.put("hashotoption", beverage.isHasIceOption());
+        obj.put("hashotoption", beverage.isHasHotOption());
         obj.put("hasiceoption", beverage.isHasIceOption());
 
         OutputStream outputStream = connection.getOutputStream();
@@ -346,11 +346,11 @@ public class BeverageServices {
             String beverageimagepath = obj.optString("beverageImagePath", "N/A");
             String beveragecode = obj.optString("beverageCode", "N/A");
             double price = obj.optDouble("price", 0);
-            boolean isavailable = obj.optBoolean("isAvailable", false);
+            boolean isavailable = obj.optBoolean("isAvailable", true); // Default to true because the .NET API SearchBeverage omits it but only returns available items
             boolean hashotoption = obj.optBoolean("hasHotOption", false);
             boolean hasiceoption = obj.optBoolean("hasIceOption", false);
             list.add(new Beverage(id, beveragename, beveragedescription, beveragecategory, beverageimagepath,
-                    beveragecode, price, isavailable, hasiceoption, hashotoption));
+                    beveragecode, price, isavailable, hashotoption, hasiceoption));
         }
         return list;
     }
