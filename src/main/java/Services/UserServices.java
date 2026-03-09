@@ -50,40 +50,6 @@ public class UserServices {
             throw new Exception(responseMsg); // 失败，抛出异常
         }
     }
-    public List<User> getAllUser() throws Exception {
-        URL url = new URL(BASE_URL + "GetAllUsers");
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-        connection.connect();
-
-        InputStream inputStream = connection.getInputStream();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-        StringBuilder result = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            result.append(line);
-        }
-        reader.close();
-
-        JSONArray array = new JSONArray(result.toString());
-        List<User> list = new ArrayList<>();
-
-        for (int i = 0; i < array.length(); i++) {
-            JSONObject obj = array.getJSONObject(i);
-
-            int id = obj.getInt("id");
-            String username = obj.optString("userName", "N/A");
-            String email = obj.optString("email", "N/A");
-            String phonenumber = obj.optString("phoneNumber", "N/A");
-            String password = obj.optString("password", "");
-            int otp = obj.optInt("otp", 0);
-            String status = obj.optString("status", "N/A");
-            String usercode = obj.optString("userCode", "N/A");
-
-            list.add(new User(id, email, username, phonenumber, password, otp, status, usercode));
-        }
-        return list;
-    }
 
     public User SearchUserByID(int id) throws  Exception{
         URL url = new URL(BASE_URL + "GetUserByID/" + id);
@@ -199,21 +165,6 @@ public class UserServices {
         } else {
             throw new Exception("Login failed: User ID not found in response.");
         }
-    }
-    public String UnActiveUser(int id) throws Exception{
-        URL url = new URL(BASE_URL + "UnActiveUser/" + id);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-
-        return getResponseFromConnection(connection);
-    }
-
-    public String ActiveUser(int id) throws Exception {
-        URL url = new URL(BASE_URL + "ActiveUser/" + id);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-
-        return getResponseFromConnection(connection);
     }
 
     public String ChangePassword(ChangePasswordDTO password) throws Exception{

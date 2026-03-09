@@ -166,7 +166,6 @@ public class TransactionServices {
 
         JSONObject obj = new JSONObject(result.toString());
 
-        // ✅ 修正：将 Key 的首字母改为大写，以匹配 .NET 的匿名对象属性名
         int userID = obj.getInt("userID");
         String transNo = obj.getString("transactionNo");
         BigDecimal totalAmount = BigDecimal.valueOf(obj.getDouble("totalAmount"));
@@ -180,7 +179,6 @@ public class TransactionServices {
         for (int j = 0; j < itemsArray.length(); j++) {
             JSONObject itemObj = itemsArray.getJSONObject(j);
 
-            // ✅ 修正：Items 列表里的字段也要大写
             itemList.add(new TransactionItemsDTO(
                     itemObj.getString("beverageName"),
                     itemObj.getString("imagePath"),
