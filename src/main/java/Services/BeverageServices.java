@@ -132,4 +132,44 @@ public class BeverageServices {
         }
         return list;
     }
+    public List<Beverage> BestSellerBeverage() throws Exception {
+        URL url = new URL(BASE_URL + "BeverageBestSeller");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.connect();
+
+        int responseCode = connection.getResponseCode();
+        if (responseCode != 200) {
+            System.out.println("Error: Server returned status code " + responseCode);
+            return new ArrayList<>();
+        }
+        InputStream inputStream = connection.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        StringBuilder result = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            result.append(line);
+        }
+        reader.close();
+
+        JSONArray array = new JSONArray(result.toString());
+        List<Beverage> list = new ArrayList<>();
+
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject obj = array.getJSONObject(i);
+            int id = obj.getInt("id");
+            String beveragename = obj.getString("beverageName");
+            String beveragedescription = obj.optString("beverageDescription", "N/A");
+            String beveragecategory = obj.optString("beverageCategory", "N/A");
+            String beverageimagepath = obj.optString("beverageImagePath", "N/A");
+            String beveragecode = obj.optString("beverageCode", "N/A");
+            double price = obj.optDouble("price", 0);
+            boolean isavailable = obj.optBoolean("isAvailable", false);
+            boolean hashotoption = obj.optBoolean("hasHotOption", false);
+            boolean hasiceoption = obj.optBoolean("hasIceOption", false);
+            list.add(new Beverage(id, beveragename, beveragedescription, beveragecategory, beverageimagepath,
+                    beveragecode, price, isavailable, hashotoption, hasiceoption));
+        }
+        return list;
+    }
 }
