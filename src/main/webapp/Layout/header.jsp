@@ -112,6 +112,14 @@
                                     <script>
                                         function toggleMobileMenu() {
                                             var menu = document.getElementById('mobileMenu');
-                                            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+                                            menu.classList.toggle('open');
+
+                                            // Handle hamburger icon morphing if implemented
+                                            var btn = document.querySelector('.mobile-menu-btn svg');
+                                            if (menu.classList.contains('open')) {
+                                                btn.innerHTML = '<path d="M6 18L18 6M6 6l12 12" />';
+                                            } else {
+                                                btn.innerHTML = '<path d="M4 6h16M4 12h16M4 18h16" />';
+                                            }
                                         }
                                     </script>

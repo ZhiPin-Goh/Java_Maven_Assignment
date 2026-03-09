@@ -81,8 +81,10 @@
                                         </div>
                                         <div class="form-check mb-6">
                                             <input type="checkbox" id="terms" name="terms" required>
-                                            <label for="terms" class="text-sm text-gray-700">I agree to the <a href="#"
-                                                    class="text-emerald-600">Terms of Service</a> and <a href="#"
+                                            <label for="terms" class="text-sm text-gray-700">I agree to the <a
+                                                    href="${pageContext.request.contextPath}/terms-of-services.jsp"
+                                                    class="text-emerald-600">Terms of Service</a> and <a
+                                                    href="${pageContext.request.contextPath}/privacy.jsp"
                                                     class="text-emerald-600">Privacy Policy</a></label>
                                         </div>
                                         <button type="submit" id="submitBtn" class="btn btn-emerald btn-block"

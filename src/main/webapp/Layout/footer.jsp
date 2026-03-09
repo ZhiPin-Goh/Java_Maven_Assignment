@@ -14,6 +14,8 @@
                         <li><a href="${pageContext.request.contextPath}/index">Drink</a></li>
                         <li><a href="${pageContext.request.contextPath}/cart">Cart</a></li>
                         <li><a href="${pageContext.request.contextPath}/locations.jsp">Location</a></li>
+                        <li><a href="${pageContext.request.contextPath}/privacy.jsp">Privacy Policy</a></li>
+                        <li><a href="${pageContext.request.contextPath}/terms-of-services.jsp">Terms of Service</a></li>
                     </ul>
                 </div>
                 <div style="text-align:right;">
@@ -46,8 +48,8 @@
             <div class="footer-bottom">
                 <p>&copy; 2026 Zen Tea. All rights reserved.</p>
                 <div class="flex gap-6">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
+                    <a href="${pageContext.request.contextPath}/privacy.jsp">Privacy Policy</a>
+                    <a href="${pageContext.request.contextPath}/terms-of-services.jsp">Terms of Service</a>
                 </div>
             </div>
         </div>
