@@ -26,6 +26,7 @@ public class CheckOut extends HttpServlet {
         }
         try{
             String[] selectCartIDs = request.getParameterValues("cardIDs");
+            boolean usepoints = Boolean.getBoolean(request.getParameter("usepoints"));
             if(selectCartIDs == null || selectCartIDs.length == 0){
                 session.setAttribute("error", "Please select at least one item to checkout.");
                 response.sendRedirect("cart");
@@ -37,7 +38,7 @@ public class CheckOut extends HttpServlet {
                 idList.add(Integer.parseInt(idStr));
             }
 
-            String result = checkOutServices.CheckOut(idList);
+            String result = checkOutServices.CheckOut(idList, usepoints);
             session.setAttribute("successMessage", "Checkout Successful!");
             response.sendRedirect("payment-success");
         }

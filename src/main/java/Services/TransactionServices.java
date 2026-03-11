@@ -76,7 +76,9 @@ public class TransactionServices {
             String time = tObj.getString("orderTime");
             String status = tObj.getString("status");
             String pickupCode = tObj.optString("pickupCode", "N/A");
-
+            BigDecimal pointsused = BigDecimal.valueOf(tObj.getDouble("pointsUsed"));
+            BigDecimal discount = BigDecimal.valueOf(tObj.getDouble("discountAmount"));
+            BigDecimal pointsearned = BigDecimal.valueOf(tObj.getDouble("pointsEarned"));
             JSONArray itemsArray = tObj.getJSONArray("items");
 
             List<TransactionItemsDTO> itemsList = new ArrayList<>();
@@ -93,7 +95,7 @@ public class TransactionServices {
                 ));
             }
 
-            transactionList.add(new TransactionDTO(userId, transNo, total, time, status, pickupCode, itemsList));
+            transactionList.add(new TransactionDTO(userId, transNo, total, time, status, pickupCode, pointsused, discount, pointsearned, itemsList));
         }
 
         return transactionList;
@@ -187,6 +189,6 @@ public class TransactionServices {
                     BigDecimal.valueOf(itemObj.getDouble("price"))
             ));
         }
-        return new TransactionDTO(userID, transNo, totalAmount, orderTime, status, pickupCode, itemList);
+        return new TransactionDTO(userID, transNo, totalAmount, orderTime, status, pickupCode,null,null,null, itemList);
     }
 }

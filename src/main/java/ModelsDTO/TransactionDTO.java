@@ -10,12 +10,12 @@ public class TransactionDTO {
     private String Status;
     private String PickupCode;
     private BigDecimal PointsUsed;
-    private String DiscountAmount;
+    private BigDecimal DiscountAmount;
     private BigDecimal PointsEarned;
     private List<TransactionItemsDTO> Items;
 
     public TransactionDTO(int userID, String transactionNo, BigDecimal totalAmount, String orderTime, String status, String pickupCode,
-                          BigDecimal PointsUsed, String DiscountAmount, BigDecimal PointsEarned ,List<TransactionItemsDTO> items) {
+                          BigDecimal PointsUsed, BigDecimal DiscountAmount, BigDecimal PointsEarned ,List<TransactionItemsDTO> items) {
         this.UserID = userID;
         this.TransactionNo = transactionNo;
         this.TotalAmount = totalAmount;
@@ -40,7 +40,7 @@ public class TransactionDTO {
         return PointsUsed;
     }
 
-    public String getDiscountAmount() {
+    public BigDecimal getDiscountAmount() {
         return DiscountAmount;
     }
 

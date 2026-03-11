@@ -84,5 +84,28 @@ public class PointServices {
         }
         return pointLogsList;
     }
+    public BigDecimal GetPoints(int id) throws Exception{
+        URL url = new URL(BASE_URL + "GetPoints/"+id);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.connect();
+
+        int responseCode = connection.getResponseCode();
+        if (responseCode !=200){
+            throw new Exception("Server Error: "+ responseCode);
+        }
+
+        InputStream inputStream = connection.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        StringBuilder result = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            result.append(line);
+        }
+        JSONObject obj = new JSONObject(result.toString());
+
+        BigDecimal pointBalance = BigDecimal.valueOf(obj.getDouble("pointBalance"));
+        return pointBalance;
+    }
 
 }

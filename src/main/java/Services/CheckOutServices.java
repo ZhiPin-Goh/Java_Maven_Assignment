@@ -43,7 +43,7 @@ public class CheckOutServices {
             throw new Exception(responseMsg); // 失败，抛出异常
         }
     }
-    public String CheckOut(List<Integer> cartIDs) throws Exception{
+    public String CheckOut(List<Integer> cartIDs, boolean usePoints) throws Exception{
         URL url = new URL(BASE_URL + "CheckOut");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestProperty("Content-Type", "application/json");
@@ -56,6 +56,7 @@ public class CheckOutServices {
             idArray.put(id);
         }
         obj.put("cartID", idArray);
+        obj.put("UsePoints", usePoints);
 
         OutputStream outputStream = connection.getOutputStream();
         outputStream.write(obj.toString().getBytes("UTF-8"));
