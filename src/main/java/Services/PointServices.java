@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PointServices {
-    private static final String BASE_URL = "http://localhost:5018/api/ManageDrinkOption/";
+    private static final String BASE_URL = "http://localhost:5018/api/ManagePoints/";
     private String getResponseFromConnection(HttpURLConnection connection) throws Exception {
         int responseCode = connection.getResponseCode();
         InputStream inputStream;
@@ -28,13 +28,17 @@ public class PointServices {
         }
 
         // 2. 读数据
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
         StringBuilder response = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            response.append(line);
+        if (inputStream != null) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            reader.close();
+        } else {
+            response.append("Error " + responseCode + ": No response from server");
         }
-        reader.close();
 
         String responseMsg = response.toString();
 
@@ -46,7 +50,7 @@ public class PointServices {
         }
     }
     public String DailyCheckIn(int id) throws Exception{
-        URL url = new URL(BASE_URL + "DailyCheckIn/"+id);
+        URL url = new URL(BASE_URL + "DailyCheckIn?id="+id);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
@@ -56,7 +60,7 @@ public class PointServices {
     }
 
     public List<PointLogs> GetPointLogs(int userID) throws Exception{
-        URL url = new URL(BASE_URL + "DailyCheckIn/"+userID);
+        URL url = new URL(BASE_URL + "GetPointLogs/"+userID);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setDoOutput(true);
@@ -75,12 +79,23 @@ public class PointServices {
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject obj = jsonArray.getJSONObject(i);
 
-            int id = obj.getInt("id");
-            int userid = obj.getInt("userID");
-            BigDecimal amount = obj.getBigDecimal("amount");
-            String description = obj.getString("description");
-            String createat = obj.getString("createAt");
-            pointLogsList.add(new PointLogs(id,userid,amount,description,createat));
+            // Fetch from exact JSON key names
+            BigDecimal amount = BigDecimal.valueOf(obj.optDouble("points", 0.0));
+            if (!obj.has("points") && obj.has("Points")) {
+                amount = BigDecimal.valueOf(obj.optDouble("Points", 0.0));
+            }
+            
+            String description = obj.optString("description", "N/A");
+            if (!obj.has("description") && obj.has("Description")) {
+                 description = obj.optString("Description", "N/A");
+            }
+            
+            String createat = obj.optString("date", "N/A");
+            if (!obj.has("date") && obj.has("Date")) {
+                 createat = obj.optString("Date", "N/A");
+            }
+
+            pointLogsList.add(new PointLogs(0, userID, amount, description, createat));
         }
         return pointLogsList;
     }

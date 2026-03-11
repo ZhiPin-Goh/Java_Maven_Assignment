@@ -41,7 +41,31 @@ public class Order extends HttpServlet {
             case "/orderList":
                 try {
                     List<TransactionDTO> orderList = transactionServices.GetTransactionHistory(userId);
-                    request.setAttribute("orderList", orderList);
+                    
+                    int pageNum = 1;
+                    int pageSize = 5;
+                    String pageParam = request.getParameter("page");
+                    if (pageParam != null && !pageParam.isEmpty()) {
+                        try {
+                            pageNum = Integer.parseInt(pageParam);
+                        } catch (NumberFormatException ignored) {
+                        }
+                    }
+
+                    int totalRecords = orderList.size();
+                    int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+
+                    if (pageNum < 1) pageNum = 1;
+                    if (pageNum > totalPages && totalPages > 0) pageNum = totalPages;
+
+                    int startIndex = (pageNum - 1) * pageSize;
+                    int endIndex = Math.min(startIndex + pageSize, totalRecords);
+
+                    List<TransactionDTO> paginatedList = orderList.subList(Math.max(0, startIndex), endIndex);
+
+                    request.setAttribute("orderList", paginatedList);
+                    request.setAttribute("currentPage", pageNum);
+                    request.setAttribute("totalPages", totalPages);
                     request.getRequestDispatcher("order-history.jsp").forward(request, response);
                 } catch (Exception ex) {
                     request.setAttribute("errorMessage", ex.getMessage());

@@ -13,7 +13,7 @@
     initials = initials.toUpperCase();
 }
 String profileActive = acPath.contains(" profile") ? "active" : "" ; String orderActive=acPath.contains("order")
-            ? "active" : "" ; String securityActive=acPath.contains("change") ? "active" : "" ; %>
+            ? "active" : "" ; String pointsActive=acPath.contains("Points") ? "active" : "" ; String securityActive=acPath.contains("change") ? "active" : "" ; %>
             <!-- @formatter:on -->
             <div class="account-sidebar">
                 <div class="account-sidebar-card">
@@ -45,6 +45,13 @@ String profileActive = acPath.contains(" profile") ? "active" : "" ; String orde
                                 <path d="M16 10a4 4 0 0 1-8 0" />
                             </svg>
                             Order History
+                        </a>
+                        <a href="${pageContext.request.contextPath}/myPoints" class="<%= pointsActive %>">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                            </svg>
+                            My Points
                         </a>
                         <a href="${pageContext.request.contextPath}/change-password.jsp" class="<%= securityActive %>">
                             <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"

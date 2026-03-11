@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/getPoints", "/pointLogs"})
+@WebServlet("/myPoints")
 public class Points extends HttpServlet {
     PointServices pointServices = new PointServices();
 
@@ -25,47 +25,57 @@ public class Points extends HttpServlet {
             response.sendRedirect("sign-up.jsp");
             return;
         }
-        String referer = request.getHeader("Referer");
-        String targetPage = (referer != null) ? referer : "index";
-        String path = request.getServletPath();
-        switch (path){
 
-            //This is show point at header area: e.g:10 Point
-            case "/getPoins":
-                try{
-                    BigDecimal points = pointServices.GetPoints(userId);
-                    request.setAttribute("points", points);
-                    request.getRequestDispatcher("my-points").forward(request, response);
-                } catch (Exception ex) {
-                    request.setAttribute("errorMessage", ex.getMessage());
-                    request.getRequestDispatcher("my-points").forward(request,response);
-                }
-            // This show list point logs at footer area
-                // output Json:
-//            {
-//                "points": 0.1,
-//                    "description": "Daily Check-In Reward",
-//                    "date": "2026-03-11T12:36:39.9084585"
-//            },
-//            {
-//                "points": 1.26,
-//                    "description": "Earned points from transaction",
-//                    "date": "2026-03-11T11:27:54.1258745"
-//            },
-//            {
-//                "points": -1.7,
-//                    "description": "Used points for transaction on 2026-03-11 11:27:54 AM",
-//                    "date": "2026-03-11T11:27:54.0957214"
-//            },
-            case "/pointLogs":
-                try{
-                    List<PointLogs> pointLogs = pointServices.GetPointLogs(userId);
-                    request.setAttribute("pointsLogs", pointLogs);
-                    request.getRequestDispatcher("my-points").forward(request,response);
-                }catch (Exception ex){
-                    request.setAttribute("errorMessage", ex.getMessage());
-                    request.getRequestDispatcher("my-points").forward(request, response);
-                }
+        try{
+            BigDecimal points = pointServices.GetPoints(userId);
+            request.setAttribute("points", points);
+        } catch (Exception ex) {
+            request.setAttribute("errorMessage", "Failed to get points: " + ex.getMessage());
         }
+
+        try{
+            int page = 1;
+            String pageParam = request.getParameter("page");
+            if (pageParam != null && !pageParam.isEmpty()) {
+                try {
+                    page = Integer.parseInt(pageParam);
+                } catch (NumberFormatException ignored) {}
+            }
+            int pageSize = 5;
+
+            List<PointLogs> allLogs = pointServices.GetPointLogs(userId);
+            
+            int totalRecords = allLogs.size();
+            int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+            
+            if (page < 1) page = 1;
+            if (page > totalPages && totalPages > 0) page = totalPages;
+
+            int fromIndex = (page - 1) * pageSize;
+            int toIndex = Math.min(fromIndex + pageSize, totalRecords);
+
+            List<PointLogs> pagedLogs = null;
+            if (fromIndex < totalRecords) {
+                pagedLogs = allLogs.subList(fromIndex, toIndex);
+            } else {
+                pagedLogs = new java.util.ArrayList<>();
+            }
+
+            request.setAttribute("pointsLogs", pagedLogs);
+            request.setAttribute("currentPage", page);
+            request.setAttribute("totalPages", totalPages);
+        }catch (Exception ex){
+            request.setAttribute("errorMessage", "Failed to get point logs: " + ex.getMessage());
+        }
+
+        String errorParam = request.getParameter("error");
+        if (errorParam != null && !errorParam.isEmpty()) {
+            request.setAttribute("errorMessage", "Check-in failed: " + errorParam);
+        }
+
+        boolean alreadyCheckedIn = "true".equals(request.getParameter("alreadyCheckedIn"));
+        request.setAttribute("alreadyCheckedIn", alreadyCheckedIn);
+
+        request.getRequestDispatcher("my-points.jsp").forward(request,response);
     }
 }

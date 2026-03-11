@@ -3,6 +3,7 @@ package Controller;
 import ModelsDTO.CartDTO;
 import ModelsDTO.GetCartDTO;
 import Services.CartServices;
+import Services.PointServices;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -28,6 +29,16 @@ public class Cart extends HttpServlet {
            }
            GetCartDTO cartData = cartServices.GetUserCartList(userId);
            request.setAttribute("cartData", cartData);
+
+           try {
+               PointServices pointServices = new PointServices();
+               java.math.BigDecimal userPoints = pointServices.GetPoints(userId);
+               request.setAttribute("userPoints", userPoints);
+           } catch (Exception e) {
+               // Silently fail if points can't be fetched, checkout should still work
+               request.setAttribute("userPoints", java.math.BigDecimal.ZERO);
+           }
+
            request.getRequestDispatcher("cart.jsp").forward(request,response);
        }
        catch (Exception ex){

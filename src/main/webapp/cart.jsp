@@ -24,6 +24,11 @@
                                 </div>
                                 <% } %>
 
+                            <% 
+                                java.math.BigDecimal userPointsDecimal = (java.math.BigDecimal) request.getAttribute("userPoints");
+                                double userPoints = (userPointsDecimal != null) ? userPointsDecimal.doubleValue() : 0.0;
+                            %>
+
                                     <% if (cartItems !=null && !cartItems.isEmpty()) { %>
                                         <form id="checkoutForm" action="${pageContext.request.contextPath}/checkOut"
                                             method="post">
@@ -129,10 +134,36 @@
                                                         </div>
                                                         <div class="summary-row"><span>Pickup
                                                                 Fee</span><span>Free</span></div>
-                                                        <div class="summary-total">
+                                                                
+                                                        <!-- Points Toggle Feature -->
+                                                        <style>
+                                                            .pt-toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #D1D5DB; transition: .4s; border-radius: 34px; }
+                                                            .pt-toggle-slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+                                                            input:checked + .pt-toggle-slider { background-color: #059669; }
+                                                            input:checked + .pt-toggle-slider:before { transform: translateX(20px); }
+                                                        </style>
+                                                        <div class="summary-row" style="border-top: 1px dashed #E5E7EB; padding-top: 1rem; margin-top: 0.5rem; align-items: center;">
+                                                            <div class="flex items-center gap-2">
+                                                                <svg width="20" height="20" fill="none" stroke="#059669" stroke-width="2" viewBox="0 0 24 24">
+                                                                    <circle cx="12" cy="12" r="10" />
+                                                                    <path d="M12 16v-4m0-4h.01" />
+                                                                </svg>
+                                                                <span style="font-weight: 500;">Use Points</span>
+                                                                <span class="text-xs text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full"><%= String.format("%.2f", userPoints) %> available</span>
+                                                            </div>
+                                                            <label style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                                                                <input type="checkbox" name="usepoints" id="usePointsToggle" value="true" onchange="updateCartTotals()" style="opacity: 0; width: 0; height: 0;" <%= (userPoints <= 0) ? "disabled" : "" %>>
+                                                                <span class="pt-toggle-slider"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="summary-row text-emerald-600" id="pointsDiscountRow" style="display: none; font-size: 0.875rem;">
+                                                            <span>Points Discount</span>
+                                                            <span id="cartPointsDiscount">-RM 0.00</span>
+                                                        </div>
+
+                                                        <div class="summary-total" style="border-top: 2px solid #E5E7EB; padding-top: 1rem; margin-top: 1rem;">
                                                             <span class="label">Total</span>
-                                                            <span class="amount" id="cartTotal">RM <%=
-                                                                    String.format("%.2f", totalAmt) %></span>
+                                                            <span class="amount" id="cartTotal">RM <%= String.format("%.2f", totalAmt) %></span>
                                                         </div>
                                                         <p class="text-xs text-gray-500 mt-1" style="text-align:right;">
                                                             Inclusive of 6% SST</p>
@@ -205,13 +236,28 @@
                                     }
                                 });
 
+                                var availablePoints = Number("<%= userPoints %>");
+                                var usePointsToggle = document.getElementById('usePointsToggle');
+                                var pointsDiscountRow = document.getElementById('pointsDiscountRow');
+                                var discountAmt = 0;
+
+                                if (usePointsToggle && usePointsToggle.checked) {
+                                    discountAmt = Math.min(totalAmt, availablePoints);
+                                    pointsDiscountRow.style.display = 'flex';
+                                    pointsDiscountRow.style.justifyContent = 'space-between';
+                                    document.getElementById('cartPointsDiscount').innerText = '-RM ' + discountAmt.toFixed(2);
+                                } else {
+                                    pointsDiscountRow.style.display = 'none';
+                                }
+
                                 var sstAmt = Math.round((totalAmt / 1.06 * 0.06) * 100) / 100;
                                 var subtotalAmt = Math.round((totalAmt - sstAmt) * 100) / 100;
+                                var finalTotal = Math.max(0, totalAmt - discountAmt);
 
                                 document.getElementById('cartItemCount').innerText = selectedCount;
                                 document.getElementById('cartSubtotal').innerText = 'RM ' + subtotalAmt.toFixed(2);
                                 document.getElementById('cartSst').innerText = 'RM ' + sstAmt.toFixed(2);
-                                document.getElementById('cartTotal').innerText = 'RM ' + totalAmt.toFixed(2);
+                                document.getElementById('cartTotal').innerText = 'RM ' + finalTotal.toFixed(2);
 
                                 var checkoutBtn = document.getElementById('checkoutBtn');
                                 if (selectedCount === 0) {

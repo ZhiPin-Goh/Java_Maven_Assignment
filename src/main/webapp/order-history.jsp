@@ -5,7 +5,11 @@
                 <%@ include file="Layout/header.jsp" %>
                     <!-- @formatter:off -->
                     <% List<TransactionDTO> orderList = (List<TransactionDTO>) request.getAttribute("orderList");
-                            %>
+                       Integer currentPageObj = (Integer) request.getAttribute("currentPage");
+                       Integer totalPagesObj = (Integer) request.getAttribute("totalPages");
+                       int currentPage = (currentPageObj != null) ? currentPageObj : 1;
+                       int totalPages = (totalPagesObj != null) ? totalPagesObj : 1;
+                    %>
                             <!-- @formatter:on -->
 
                             <main class="container py-12">
@@ -89,6 +93,34 @@
                                                             </div>
                                                             <% } %>
                                                     </div>
+
+                                                    <!-- Pagination Controls -->
+                                                    <% if (totalPages > 1) { %>
+                                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; border-top: 1px solid #E5E7EB; padding-top: 1rem;">
+                                                            <% if (currentPage > 1) { %>
+                                                                <a href="${pageContext.request.contextPath}/orderList?page=<%= currentPage - 1 %>"
+                                                                   class="btn btn-outline-emerald" style="border-radius:0.5rem; text-decoration: none;">
+                                                                    &larr; Previous
+                                                                </a>
+                                                            <% } else { %>
+                                                                <div></div>
+                                                            <% } %>
+
+                                                            <span class="text-sm text-gray-500">
+                                                                Page <%= currentPage %> of <%= totalPages %>
+                                                            </span>
+
+                                                            <% if (currentPage < totalPages) { %>
+                                                                <a href="${pageContext.request.contextPath}/orderList?page=<%= currentPage + 1 %>"
+                                                                   class="btn btn-outline-emerald" style="border-radius:0.5rem; text-decoration: none;">
+                                                                    Next &rarr;
+                                                                </a>
+                                                            <% } else { %>
+                                                                <div></div>
+                                                            <% } %>
+                                                        </div>
+                                                    <% } %>
+
                                                     <% } else { %>
                                                         <div class="text-center" style="padding:3rem 0;">
                                                             <p class="text-gray-500 mb-4">No orders yet.</p>

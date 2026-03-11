@@ -28,8 +28,12 @@ public class DailyGetPoints extends HttpServlet {
             String result = pointServices.DailyCheckIn(userId);
             response.sendRedirect(targetPage);
         } catch (Exception ex) {
-            request.setAttribute("errorMessage","Failed to check in: " +ex.getMessage());
-            request.getRequestDispatcher("point").forward(request, response);
+            String errorMsg = ex.getMessage();
+            if (errorMsg != null && errorMsg.contains("already checked in")) {
+                response.sendRedirect(request.getContextPath() + "/myPoints?alreadyCheckedIn=true");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/myPoints?error=" + java.net.URLEncoder.encode(errorMsg, "UTF-8"));
+            }
         }
     }
 }

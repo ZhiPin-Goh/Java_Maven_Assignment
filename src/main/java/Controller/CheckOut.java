@@ -26,7 +26,7 @@ public class CheckOut extends HttpServlet {
         }
         try{
             String[] selectCartIDs = request.getParameterValues("cardIDs");
-            boolean usepoints = Boolean.getBoolean(request.getParameter("usepoints"));
+            boolean usepoints = "true".equals(request.getParameter("usepoints"));
             if(selectCartIDs == null || selectCartIDs.length == 0){
                 session.setAttribute("error", "Please select at least one item to checkout.");
                 response.sendRedirect("cart");
