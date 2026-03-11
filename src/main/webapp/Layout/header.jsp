@@ -5,7 +5,7 @@
         session.removeAttribute("successMessage"); if (errorMsg !=null) session.removeAttribute("errorMessage"); String
         homeActive=(currentPath.equals("/index") || currentPath.equals("/index.jsp")) ? "active" : "" ; String
         drinkActive=(currentPath.equals("/drinks") || currentPath.equals("/drinks.jsp")) ? "active" : "" ; String
-        cartActive=currentPath.equals("/cart") ? "active" : "" ; String
+        cartActive=(currentPath.equals("/cart") || currentPath.equals("/cart.jsp")) ? "active" : "" ; String
         locationActive=currentPath.equals("/locations.jsp") ? "active" : "" ; %>
         <!DOCTYPE html>
         <html lang="en">

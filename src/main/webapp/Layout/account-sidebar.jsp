@@ -12,8 +12,8 @@
     if (parts.length > 1) initials += String.valueOf(parts[parts.length - 1].charAt(0));
     initials = initials.toUpperCase();
 }
-String profileActive = acPath.contains(" profile") ? "active" : "" ; String orderActive=acPath.contains("order")
-            ? "active" : "" ; String pointsActive=acPath.contains("Points") ? "active" : "" ; String securityActive=acPath.contains("change") ? "active" : "" ; %>
+String profileActive = acPath.toLowerCase().contains("profile") ? "active" : "" ; String orderActive=acPath.toLowerCase().contains("order")
+            ? "active" : "" ; String pointsActive=acPath.toLowerCase().contains("points") ? "active" : "" ; String securityActive=acPath.toLowerCase().contains("change") ? "active" : "" ; %>
             <!-- @formatter:on -->
             <div class="account-sidebar">
                 <div class="account-sidebar-card">
