@@ -41,6 +41,22 @@ public class Points extends HttpServlet {
                     request.getRequestDispatcher("my-points").forward(request,response);
                 }
             // This show list point logs at footer area
+                // output Json:
+//            {
+//                "points": 0.1,
+//                    "description": "Daily Check-In Reward",
+//                    "date": "2026-03-11T12:36:39.9084585"
+//            },
+//            {
+//                "points": 1.26,
+//                    "description": "Earned points from transaction",
+//                    "date": "2026-03-11T11:27:54.1258745"
+//            },
+//            {
+//                "points": -1.7,
+//                    "description": "Used points for transaction on 2026-03-11 11:27:54 AM",
+//                    "date": "2026-03-11T11:27:54.0957214"
+//            },
             case "/pointLogs":
                 try{
                     List<PointLogs> pointLogs = pointServices.GetPointLogs(userId);
