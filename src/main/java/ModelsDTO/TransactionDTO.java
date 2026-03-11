@@ -9,20 +9,22 @@ public class TransactionDTO {
     private String OrderTime;
     private String Status;
     private String PickupCode;
-
-    // 列表里装的是 DTO
+    private BigDecimal PointsUsed;
+    private String DiscountAmount;
+    private BigDecimal PointsEarned;
     private List<TransactionItemsDTO> Items;
 
-    // --- 修正构造函数参数类型 ---
-    // 错误写法: List<TransactionItems> items
-    // 正确写法: List<TransactionItemsDTO> items
-    public TransactionDTO(int userID, String transactionNo, BigDecimal totalAmount, String orderTime, String status, String pickupCode, List<TransactionItemsDTO> items) {
+    public TransactionDTO(int userID, String transactionNo, BigDecimal totalAmount, String orderTime, String status, String pickupCode,
+                          BigDecimal PointsUsed, String DiscountAmount, BigDecimal PointsEarned ,List<TransactionItemsDTO> items) {
         this.UserID = userID;
         this.TransactionNo = transactionNo;
         this.TotalAmount = totalAmount;
         this.OrderTime = orderTime;
         this.Status = status;
         this.PickupCode = pickupCode;
+        this.PointsUsed = PointsUsed;
+        this.DiscountAmount = DiscountAmount;
+        this.PointsEarned = PointsEarned;
         this.Items = items;
     }
 
@@ -33,4 +35,16 @@ public class TransactionDTO {
     public String getStatus() { return Status; }
     public String getPickupCode() { return PickupCode; }
     public List<TransactionItemsDTO> getItems() { return Items; }
+
+    public BigDecimal getPointsUsed() {
+        return PointsUsed;
+    }
+
+    public String getDiscountAmount() {
+        return DiscountAmount;
+    }
+
+    public BigDecimal getPointsEarned() {
+        return PointsEarned;
+    }
 }

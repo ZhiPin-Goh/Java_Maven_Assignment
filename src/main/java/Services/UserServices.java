@@ -77,7 +77,7 @@ public class UserServices {
         String password = obj.optString("password", "N/A");
         String userCode = obj.getString("userCode");
         String status = obj.getString("status");
-        return new User(userID,  name, email, phoneNumber, password, 12, status, userCode);
+        return new User(userID,  name, email, phoneNumber, password, 12, status, userCode,null,"0");
     }
     public String CreateUser(CreateUserDTO user)throws Exception{
         URL url = new URL(BASE_URL + "SignUpUser");

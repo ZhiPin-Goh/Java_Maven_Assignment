@@ -1,5 +1,7 @@
 package Models;
 
+import java.math.BigDecimal;
+
 public class User {
     private int ID;
     public String UserName;
@@ -9,7 +11,9 @@ public class User {
     private  int OTP;
     private String Status;
     private String UserCode;
-    public User(int ID, String UserName, String Email, String PhoneNumber, String Password, int OTP, String Status, String UserCode){
+    private BigDecimal PointBalance;
+    private String LastCheckInDate;
+    public User(int ID, String UserName, String Email, String PhoneNumber, String Password, int OTP, String Status, String UserCode, BigDecimal PointBalance, String LastCheckInDate){
         this.ID =ID;
         this.UserName = UserName;
         this.Email = Email;
@@ -18,6 +22,8 @@ public class User {
         this.OTP = OTP;
         this.Status = Status;
         this.UserCode = UserCode;
+        this.PointBalance=PointBalance;
+        this.LastCheckInDate=LastCheckInDate;
     }
 
     public int getID() {
@@ -80,4 +86,19 @@ public class User {
         UserCode = userCode;
     }
 
+    public String getLastCheckInDate() {
+        return LastCheckInDate;
+    }
+
+    public void setLastCheckInDate(String lastCheckInDate) {
+        LastCheckInDate = lastCheckInDate;
+    }
+
+    public BigDecimal getPointBalance() {
+        return PointBalance;
+    }
+
+    public void setPointBalance(BigDecimal pointBalance) {
+        PointBalance = pointBalance;
+    }
 }
