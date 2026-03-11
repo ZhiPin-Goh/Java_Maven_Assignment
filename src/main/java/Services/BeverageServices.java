@@ -157,18 +157,22 @@ public class BeverageServices {
 
         for (int i = 0; i < array.length(); i++) {
             JSONObject obj = array.getJSONObject(i);
-            int id = obj.getInt("id");
-            String beveragename = obj.getString("beverageName");
-            String beveragedescription = obj.optString("beverageDescription", "N/A");
-            String beveragecategory = obj.optString("beverageCategory", "N/A");
-            String beverageimagepath = obj.optString("beverageImagePath", "N/A");
-            String beveragecode = obj.optString("beverageCode", "N/A");
-            double price = obj.optDouble("price", 0);
-            boolean isavailable = obj.optBoolean("isAvailable", false);
-            boolean hashotoption = obj.optBoolean("hasHotOption", false);
-            boolean hasiceoption = obj.optBoolean("hasIceOption", false);
-            list.add(new Beverage(id, beveragename, beveragedescription, beveragecategory, beverageimagepath,
-                    beveragecode, price, isavailable, hashotoption, hasiceoption));
+            int id = obj.optInt("beverageID", obj.optInt("id"));
+            
+            try {
+                Beverage fullBev = GetBeverageByID(id);
+                if (fullBev != null) {
+                    list.add(fullBev);
+                } else {
+                    String beveragename = obj.optString("beverageName", "Unknown");
+                    String beverageimagepath = obj.optString("beverageImagePath", "N/A");
+                    list.add(new Beverage(id, beveragename, "N/A", "N/A", beverageimagepath, "N/A", 0.0, true, false, false));
+                }
+            } catch (Exception e) {
+                String beveragename = obj.optString("beverageName", "Unknown");
+                String beverageimagepath = obj.optString("beverageImagePath", "N/A");
+                list.add(new Beverage(id, beveragename, "N/A", "N/A", beverageimagepath, "N/A", 0.0, true, false, false));
+            }
         }
         return list;
     }

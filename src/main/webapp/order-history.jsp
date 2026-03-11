@@ -57,8 +57,23 @@
                                                                     <span class="text-sm text-gray-500">
                                                                         <%= order.getOrderTime() %>
                                                                     </span>
-                                                                    <span class="font-bold text-emerald-700">RM <%=
-                                                                            order.getTotalAmount() %></span>
+                                                                    <div style="text-align: right;">
+                                                                        <div class="flex items-center gap-2 justify-end">
+                                                                            <% if (order.getPointsEarned() != null && order.getPointsEarned().compareTo(java.math.BigDecimal.ZERO) > 0) { %>
+                                                                                <span style="font-size: 0.75rem; font-weight: 700; color: #059669; background: #D1FAE5; padding: 0.25rem 0.5rem; border-radius: 9999px;">
+                                                                                    + <%= String.format("%.2f", order.getPointsEarned()) %> Pts Earned
+                                                                                </span>
+                                                                            <% } %>
+                                                                            <span class="font-bold text-gray-900" style="font-size: 1.125rem;">
+                                                                                RM <%= String.format("%.2f", order.getTotalAmount()) %>
+                                                                            </span>
+                                                                        </div>
+                                                                        <% if (order.getPointsUsed() != null && order.getPointsUsed().compareTo(java.math.BigDecimal.ZERO) > 0) { %>
+                                                                            <div style="font-size: 0.875rem; color: #D97706; margin-top: 0.25rem;">
+                                                                                Used <%= String.format("%.2f", order.getPointsUsed()) %> pts (-RM <%= String.format("%.2f", order.getDiscountAmount()) %>)
+                                                                            </div>
+                                                                        <% } %>
+                                                                    </div>
                                                                 </div>
                                                                 <% if (items !=null && !items.isEmpty()) { %>
                                                                     <div

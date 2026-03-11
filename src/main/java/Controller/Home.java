@@ -25,6 +25,13 @@ public class Home extends HttpServlet {
         try {
             List<Beverage> beverageList = beverageServices.getAllBeverage();
             request.setAttribute("beverages", beverageList);
+            
+            try {
+                List<Beverage> bestbeverages = beverageServices.BestSellerBeverage();
+                request.setAttribute("bestbeverages", bestbeverages);
+            } catch (Exception e) {
+                System.out.println("Failed to load best sellers: " + e.getMessage());
+            }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             request.setAttribute("error", ex.getMessage());
