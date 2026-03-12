@@ -43,9 +43,8 @@ public class CheckOut extends HttpServlet {
             response.sendRedirect("payment-success");
         }
         catch (Exception ex){
-
-            request.setAttribute("error", ex.getMessage());
-            request.getRequestDispatcher("cart.jsp").forward(request,response);
+            session.setAttribute("error", ex.getMessage());
+            response.sendRedirect("cart");
         }
     }
 }

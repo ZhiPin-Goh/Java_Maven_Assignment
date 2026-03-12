@@ -6,6 +6,12 @@
                     <% GetCartDTO cartData=(GetCartDTO) request.getAttribute("cartData"); List<CartDTO> cartItems =
                         (cartData != null) ? cartData.getItems() : null;
                         String cartError = (String) request.getAttribute("error");
+                        if (cartError == null) {
+                            cartError = (String) session.getAttribute("error");
+                            if (cartError != null) {
+                                session.removeAttribute("error");
+                            }
+                        }
                         double totalAmt = 0;
                         double sstAmt = 0;
                         double subtotalAmt = 0;
@@ -19,10 +25,6 @@
                         <main class="container py-12">
                             <h1 class="font-serif text-3xl font-bold mb-8">Your Cart</h1>
 
-                            <% if (cartError !=null) { %>
-                                <div class="alert alert-error mb-4">&#10007; <%= cartError %>
-                                </div>
-                                <% } %>
 
                             <% 
                                 java.math.BigDecimal userPointsDecimal = (java.math.BigDecimal) request.getAttribute("userPoints");
@@ -208,6 +210,30 @@
                                             </div>
                                             <% } %>
                         </main>
+                        
+                        <!-- Hidden input to pass error state to JavaScript -->
+                        <input type="hidden" id="hasCartError" value="<%= cartError != null ? "true" : "false" %>">
+
+                        <!-- Error Popup Modal -->
+                        <div id="errorModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:100; justify-content:center; align-items:center;">
+                            <div style="background:white; padding:2rem; border-radius:1rem; max-width:400px; width:90%; text-align:center; box-shadow:0 10px 25px rgba(0,0,0,0.1); animation: modalFadeIn 0.3s ease-out forwards;">
+                                <div style="background:#FEE2E2; color:#DC2626; width:48px; height:48px; border-radius:50%; display:flex; justify-content:center; align-items:center; margin:0 auto 1rem;">
+                                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">Oops! Something went wrong</h3>
+                                <p id="errorModalMessage" class="text-gray-500 mb-6" style="line-height:1.5;"><%= cartError != null ? cartError : "" %></p>
+                                <button type="button" onclick="document.getElementById('errorModal').style.display='none'" class="btn btn-emerald" style="width:100%; border-radius:0.5rem; padding:0.75rem;">Got it, thanks!</button>
+                            </div>
+                        </div>
+
+                        <style>
+                            @keyframes modalFadeIn {
+                                from { opacity: 0; transform: translateY(-20px); }
+                                to { opacity: 1; transform: translateY(0); }
+                            }
+                        </style>
 
                         <!-- Hidden form for cart actions (minus/plus/remove) - OUTSIDE checkout form -->
                         <form id="cartActionForm" method="post" style="display:none;">
@@ -271,9 +297,13 @@
                                 }
                             }
 
-                            // Initialize totals on page load
+                            // Initialize totals and check for errors on page load
                             window.onload = function () {
                                 updateCartTotals();
+                                
+                                if (document.getElementById('hasCartError').value === 'true') {
+                                    document.getElementById('errorModal').style.display = 'flex';
+                                }
                             };
                         </script>
 
