@@ -301,42 +301,103 @@
                                                         </a>
                                                     </div>
 
-                                                    <div style="display:flex; overflow-x:auto; padding-bottom:1.5rem; gap:1.5rem; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none;" class="horizontal-scroll hide-scrollbar">
-                                                        <style>
-                                                            .hide-scrollbar::-webkit-scrollbar { display: none; }
-                                                        </style>
-                                                        <% for (Beverage bb : bestbeverages) { %>
-                                                            <div class="card animate-in" style="min-width: 280px; max-width: 280px; scroll-snap-align: start; flex-shrink: 0; margin-bottom: 0;">
-                                                                <div class="card-img" style="height: 200px;">
-                                                                    <a href="${pageContext.request.contextPath}/beverageDetails?id=<%= bb.getID() %>">
-                                                                        <img src="<%= bb.getBeverageImagePath() %>" alt="<%= bb.getBeverageName() %>" style="object-fit: cover; width: 100%; height: 100%;">
-                                                                    </a>
-                                                                    <div class="card-tag" style="background:#FEF3C7; color:#B45309; padding: 0.25rem 0.75rem; border-radius: 999px; font-weight: bold; font-size: 0.75rem; letter-spacing: 0.05em; border: 1px solid #FDE68A; display: flex; align-items: center; gap: 0.25rem;">
-                                                                        <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> #1 Choice
-                                                                    </div>
-                                                                    <a href="${pageContext.request.contextPath}/beverageDetails?id=<%= bb.getID() %>" class="card-add-btn">+</a>
-                                                                </div>
-                                                                <div class="card-body" style="padding: 1.25rem;">
-                                                                    <div class="flex justify-between items-start mb-2">
-                                                                        <a href="${pageContext.request.contextPath}/beverageDetails?id=<%= bb.getID() %>" style="max-width: 70%;">
-                                                                            <h3 style="font-size: 1.125rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #1F2937;"><%= bb.getBeverageName() %></h3>
+                                                    <div class="relative group">
+                                                        <button class="scroll-nav-btn prev-btn" onclick="scrollBestsellers(-1)">
+                                                            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                                                <path d="M15 18l-6-6 6-6" />
+                                                            </svg>
+                                                        </button>
+                                                        
+                                                        <div id="bestsellerScroll" style="display:flex; overflow-x:auto; padding-bottom:1.5rem; gap:1.5rem; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; scroll-behavior: smooth;" class="horizontal-scroll hide-scrollbar">
+                                                            <style>
+                                                                .hide-scrollbar::-webkit-scrollbar { display: none; }
+                                                                .scroll-nav-btn {
+                                                                    position: absolute;
+                                                                    top: 50%;
+                                                                    transform: translateY(-50%);
+                                                                    width: 44px;
+                                                                    height: 44px;
+                                                                    background: white;
+                                                                    border: none;
+                                                                    border-radius: 50%;
+                                                                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                                                                    display: flex;
+                                                                    align-items: center;
+                                                                    justify-content: center;
+                                                                    cursor: pointer;
+                                                                    z-index: 30;
+                                                                    color: #059669;
+                                                                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                                                                    opacity: 0;
+                                                                    visibility: hidden;
+                                                                }
+                                                                .group:hover .scroll-nav-btn {
+                                                                    opacity: 1;
+                                                                    visibility: visible;
+                                                                }
+                                                                .scroll-nav-btn:hover {
+                                                                    background: #059669;
+                                                                    color: white;
+                                                                    transform: translateY(-50%) scale(1.1);
+                                                                    box-shadow: 0 6px 16px rgba(5, 150, 105, 0.2);
+                                                                }
+                                                                .prev-btn { left: -22px; }
+                                                                .next-btn { right: -22px; }
+                                                                
+                                                                @media (max-width: 768px) {
+                                                                    .scroll-nav-btn { display: none; }
+                                                                }
+                                                            </style>
+                                                            <% for (Beverage bb : bestbeverages) { %>
+                                                                <div class="card animate-in" style="min-width: 280px; max-width: 280px; scroll-snap-align: start; flex-shrink: 0; margin-bottom: 0;">
+                                                                    <div class="card-img" style="height: 200px;">
+                                                                        <a href="${pageContext.request.contextPath}/beverageDetails?id=<%= bb.getID() %>">
+                                                                            <img src="<%= bb.getBeverageImagePath() %>" alt="<%= bb.getBeverageName() %>" style="object-fit: cover; width: 100%; height: 100%;">
                                                                         </a>
-                                                                        <span class="card-price" style="color: #059669; font-weight: 700;">RM <%= String.format("%.2f", bb.getPrice()) %></span>
+                                                                        <div class="card-tag" style="background:#FEF3C7; color:#B45309; padding: 0.25rem 0.75rem; border-radius: 999px; font-weight: bold; font-size: 0.75rem; letter-spacing: 0.05em; border: 1px solid #FDE68A; display: flex; align-items: center; gap: 0.25rem;">
+                                                                            <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> #1 Choice
+                                                                        </div>
+                                                                        <a href="${pageContext.request.contextPath}/beverageDetails?id=<%= bb.getID() %>" class="card-add-btn">+</a>
                                                                     </div>
-                                                                    <p class="card-desc line-clamp-2" style="font-size: 0.875rem; color: #6B7280; height: 2.5rem; margin-bottom: 1rem;"><%= bb.getBeverageDescription() %></p>
-                                                                    <div class="card-badges" style="display: flex; gap: 0.5rem;">
-                                                                        <% if (bb.isHasIceOption() || true) { %> <!-- Assume ice option for visual testing if data is false -->
-                                                                            <span style="background: #EFF6FF; color: #3B82F6; font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 0.375rem; font-weight: 500;">Iced</span>
-                                                                        <% } %>
-                                                                        <% if (bb.isHasHotOption() || true) { %>
-                                                                            <span style="background: #FEF2F2; color: #EF4444; font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 0.375rem; font-weight: 500;">Hot</span>
-                                                                        <% } %>
+                                                                    <div class="card-body" style="padding: 1.25rem;">
+                                                                        <div class="flex justify-between items-start mb-2">
+                                                                            <a href="${pageContext.request.contextPath}/beverageDetails?id=<%= bb.getID() %>" style="max-width: 70%;">
+                                                                                <h3 style="font-size: 1.125rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #1F2937;"><%= bb.getBeverageName() %></h3>
+                                                                            </a>
+                                                                            <span class="card-price" style="color: #059669; font-weight: 700;">RM <%= String.format("%.2f", bb.getPrice()) %></span>
+                                                                        </div>
+                                                                        <p class="card-desc line-clamp-2" style="font-size: 0.875rem; color: #6B7280; height: 2.5rem; margin-bottom: 1rem;"><%= bb.getBeverageDescription() %></p>
+                                                                        <div class="card-badges" style="display: flex; gap: 0.5rem;">
+                                                                            <% if (bb.isHasIceOption() || true) { %> <!-- Assume ice option for visual testing if data is false -->
+                                                                                <span style="background: #EFF6FF; color: #3B82F6; font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 0.375rem; font-weight: 500;">Iced</span>
+                                                                            <% } %>
+                                                                            <% if (bb.isHasHotOption() || true) { %>
+                                                                                <span style="background: #FEF2F2; color: #EF4444; font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 0.375rem; font-weight: 500;">Hot</span>
+                                                                            <% } %>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        <% } %>
+                                                            <% } %>
+                                                        </div>
+
+                                                        <button class="scroll-nav-btn next-btn" onclick="scrollBestsellers(1)">
+                                                            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                                                <path d="M9 18l6-6-6-6" />
+                                                            </svg>
+                                                        </button>
                                                     </div>
                                                 </section>
+
+                                                <script>
+                                                    function scrollBestsellers(direction) {
+                                                        const scrollContainer = document.getElementById('bestsellerScroll');
+                                                        const scrollAmount = 300; // Approx card width + gap
+                                                        scrollContainer.scrollBy({
+                                                            left: direction * scrollAmount,
+                                                            behavior: 'smooth'
+                                                        });
+                                                    }
+                                                </script>
                                                 <% } %>
 
                                                     <!-- Menu Section -->
